@@ -106,7 +106,7 @@
             const btn = document.getElementById('btn-submit');
 
             // 1. REGRA DE OURO: ACESSO MESTRE ADMIN (Sempre funciona no modo login)
-            if (isLoginMode && email === "admin@quest.com" && password === "admin") {
+            if (isLoginMode && email === "admin@admin.com" && password === "admin") {
                 btn.innerText = "Acesso Mestre Concedido...";
                 btn.style.background = "var(--alura-purple)";
                 localStorage.setItem('quest_user_name', 'Admin');

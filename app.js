@@ -4,9 +4,11 @@
 // 1. INICIALIZAÇÃO MULTI-USUÁRIO (SAVE SLOTS)
 // ==========================================
 const nomeSalvo = localStorage.getItem('quest_user_name') || 'Desenvolvedor';
-// Correção: Atualizamos os IDs para refletir a nova estrutura HTML
-const headerUserName = document.getElementById('header-user-name-title');
+
+// Força a atualização nos dois lugares (Cabeçalho e Menu Hambúrguer)
+const headerUserName = document.getElementById('header-user-name') || document.getElementById('header-user-name-title');
 if (headerUserName) headerUserName.innerText = nomeSalvo;
+
 const menuUserName = document.getElementById('menu-user-name');
 if (menuUserName) menuUserName.innerText = nomeSalvo;
 
@@ -476,3 +478,17 @@ function deslogar() {
 }
 
 window.onload = verificarNivelamento;
+
+// ==========================================
+// 6. EFEITO SCROLL: BOTÃO VOLTAR AO TOPO
+// ==========================================
+window.addEventListener('scroll', function() {
+    const btnTopo = document.getElementById('btn-voltar-topo');
+    // Se rolar mais de 300 pixels para baixo, o botão aparece
+    if (window.scrollY > 300) {
+        btnTopo.style.display = 'flex';
+    } else {
+        // Se voltar lá pra cima, ele some
+        btnTopo.style.display = 'none';
+    }
+});

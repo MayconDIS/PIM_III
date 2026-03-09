@@ -35,7 +35,7 @@ header {
     padding: 15px 40px; display: flex; justify-content: space-between;
     align-items: center; border-bottom: 1px solid #30363d; position: sticky; top: 0; z-index: 100;
 }
-.logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 1px; display: flex; align-items: center; gap: 5px;}
+.logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 1px; display: flex; align-items: center;}
 .tech-text { background: linear-gradient(90deg, var(--alura-cyan), var(--alura-purple)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
 .header-right { display: flex; align-items: center; gap: 20px; }
 
@@ -156,4 +156,122 @@ header {
 .stat-box span { color: var(--alura-cyan); }
 .stat-box.highlight { border-color: var(--alura-green); background-color: rgba(0, 255, 136, 0.05); }
 
-@media (max-width: 600px) { .dashboard-header { flex-direction: column; align-items: flex-start; text-align: left; } .xp-wrapper { align-self: flex-start; margin-top: 15px; } }
+/* =========================================
+   RESPONSIVIDADE (CELULARES E TABLETS)
+   ========================================= */
+@media (max-width: 600px) {
+    /* 1. Ajuste do Cabeçalho (Header) - NA MESMA LINHA */
+    header {
+        padding: 15px 15px;
+        flex-direction: row; /* Força tudo a ficar na mesma linha horizontal */
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo {
+        font-size: 1.3rem;
+        justify-content: flex-start; /* Alinha a logo à esquerda */
+    }
+    /* Oculta o "| Flashcards" para sobrar bastante espaço no celular */
+    .logo span:nth-of-type(3) {
+        display: none; 
+    }
+    .header-right {
+        width: auto;
+        justify-content: flex-end; /* Empurra os botões para a direita */
+        gap: 15px; /* Espaço perfeito entre o botão Criar Carta e o Menu Hambúrguer */
+    }
+    /* Deixa o botão de criar carta um pouco mais compacto no celular para não quebrar */
+    .header-right .btn-action {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+
+    /* ... (MANTENHA OS OUTROS AJUSTES DE CELULAR AQUI PARA BAIXO, COMO O PAINEL PRINCIPAL) ... */
+    
+    /* 2. Painel Principal (Terminal) */
+    .container {
+        padding: 0 10px;
+        margin: 20px auto;
+    }
+    .dashboard-header { 
+        flex-direction: column; 
+        align-items: flex-start; 
+        text-align: left; 
+        padding: 20px;
+    }
+    .welcome-text h1 {
+        font-size: 1.4rem;
+    }
+    .xp-wrapper { 
+        width: 100%;
+        justify-content: center; 
+        margin-top: 15px; 
+        border-top: 1px solid #30363d;
+        padding-top: 15px;
+    }
+
+    /* 3. Aulas e Módulos */
+    .aula-item {
+        flex-wrap: wrap;
+        padding: 15px;
+        align-items: flex-start;
+    }
+    .aula-title {
+        font-size: 0.95rem;
+        flex: 1;
+        line-height: 1.4;
+    }
+    .aula-item > div {
+        width: 100%;
+        justify-content: flex-end;
+        margin-left: 0 !important;
+        margin-top: 10px;
+        border-top: 1px dashed #30363d; 
+        padding-top: 10px;
+    }
+
+    /* 4. Painel de Flashcards */
+    .carta-frente, .carta-verso {
+        padding: 20px;
+    }
+    #titulo-aula {
+        font-size: 1rem;
+    }
+    .btn-jogo {
+        font-size: 0.85rem;
+        padding: 12px 10px;
+    }
+
+    /* Ajuste do botão topo no celular */
+    #btn-voltar-topo {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* =========================================
+   BOTÃO FLUTUANTE: VOLTAR AO TOPO
+   ========================================= */
+#btn-voltar-topo {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Deixa o botão perfeitamente redondo */
+    display: none; /* Começa invisível. O JavaScript vai ligar ele! */
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Fica por cima de tudo na tela */
+    padding: 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    opacity: 0.8;
+}
+
+#btn-voltar-topo:hover {
+    opacity: 1;
+    transform: translateY(-5px); /* Dá um pulinho suave pra cima */
+    box-shadow: 0 8px 25px rgba(0, 230, 230, 0.4);
+}

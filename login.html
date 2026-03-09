@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Game Quest Ti</title>
+    <title>Login - Nex_TI</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300e6e6'><path d='M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z'/></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
@@ -11,9 +11,9 @@
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h1 id="form-title" class="logo-main tech-font">Game Quest <span class="tech-text">Ti</span></h1>
-            <p id="form-subtitle" class="subtitle">Welcome back, developer.</p>
-        </div>
+                <h1 id="form-title" class="logo-main tech-font">Nex_<span class="tech-text">TI</span></h1>
+                <p id="form-subtitle" class="subtitle">Welcome back, developer.</p>
+            </div>
         <form class="login-form" onsubmit="handleAuth(event)">
             <div class="form-group" id="group-nome" style="display: none;">
                 <label for="nome" class="tech-font">Nickname</label>
@@ -48,19 +48,23 @@
             const inputNome = document.getElementById('nome');
 
             if (isLoginMode) {
-                title.innerHTML = 'Game Quest <span class="tech-text">Ti</span>';
+                // Underline no Login
+                title.innerHTML = 'Nex_<span class="tech-text">TI</span>';
                 subtitle.innerText = 'Welcome back, developer.';
-                btn.innerText = '> INITIALIZE_LOGIN()';
-                footerText.innerHTML = 'Acesso negado? <a href="#" onclick="toggleMode(event)">Solicitar Cadastro</a>';
+                btn.innerText = 'Entrar no Terminal';
+                footerText.innerHTML = 'Ainda não tem acesso? <a href="#" onclick="toggleMode(event)">Cadastre-se</a>';
                 groupNome.style.display = 'none'; 
                 inputNome.required = false;
+                forgotPass.style.display = 'block';
             } else {
-                title.innerHTML = 'New <span class="tech-text">Access</span>';
-                subtitle.innerText = 'Join the Grid.';
-                btn.innerText = '> CREATE_USER()';
-                footerText.innerHTML = 'Já possui ID? <a href="#" onclick="toggleMode(event)">Fazer Login</a>';
+                // Underline no Cadastro também!
+                title.innerHTML = 'New_<span class="tech-text">Access</span>';
+                subtitle.innerText = 'Join the Quest.';
+                btn.innerText = 'Criar Conta';
+                footerText.innerHTML = 'Já tem acesso? <a href="#" onclick="toggleMode(event)">Faça Login</a>';
                 groupNome.style.display = 'block'; 
                 inputNome.required = true;
+                forgotPass.style.display = 'none'; 
             }
         }
         function handleAuth(event) {

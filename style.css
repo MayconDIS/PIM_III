@@ -249,6 +249,18 @@ header {
         width: 45px;
         height: 45px;
     }
+
+    /* 5. Cabeçalhos dos Módulos (Quebra de linha no celular) */
+    .dia-header {
+        flex-direction: column;      /* Coloca o texto abaixo da tag */
+        align-items: flex-start;     /* Alinha tudo na esquerda */
+        gap: 4px;                    /* Dá um respiro entre a Tag e o Nome */
+        margin-top: 30px;            /* Mantém um bom espaço do módulo anterior */
+    }
+    
+    .dia-line {
+        display: none; /* Oculta a linha divisória no celular para o design ficar super clean */
+    }
 }
 
 /* =========================================
@@ -275,3 +287,5 @@ header {
     transform: translateY(-5px); /* Dá um pulinho suave pra cima */
     box-shadow: 0 8px 25px rgba(0, 230, 230, 0.4);
 }
+
+

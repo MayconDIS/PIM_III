@@ -17,7 +17,7 @@
 
         <div class="dropdown-menu" id="dropdownMenu">
             <div class="dropdown-header">
-                <span class="icon">👤</span> MayconDIS
+                <span class="icon">👤</span> <span id="menu-user-name">Carregando...</span>
             </div>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item" onclick="abrirModal('modalCriacao')"><span class="icon" style="color:#8a2be2">➕</span> Criar Flashcards</a>
@@ -31,67 +31,92 @@
     <div class="container">
         <header class="dashboard-header">
             <div class="user-info">
-                <h1>Bem-vindo(a) de volta, <span class="tech-text">Maycon!</span></h1>
+                <h1>Bem-vindo(a) de volta, <span class="tech-text" id="header-user-name">Dev!</span></h1>
                 <p>Sua jornada para dominar o Inglês está a todo vapor.</p>
             </div>
-            <div class="xp-container">
-                <span class="xp-label">SEU NÍVEL</span>
-                <span class="xp-badge" id="xp-display" style="font-size: 1.5rem; padding: 10px 20px;">25 XP</span>
+            
+            <div class="xp-wrapper" style="display: flex; gap: 20px; align-items: center;">
+                
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span class="xp-badge" id="xp-display" style="font-size: 1rem; padding: 8px 15px; margin: 0;">0 XP</span>
+                    <span style="font-size: 0.75rem; letter-spacing: 1.5px; margin-top: 6px; color: #8b92a5; font-weight: bold; text-transform: uppercase; text-align: center;">Nível</span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span class="xp-badge" id="coin-display" style="font-size: 1rem; padding: 8px 15px; margin: 0; border-color: #ffd700; color: #ffd700; background-color: rgba(255, 215, 0, 0.05);">🪙 0</span>
+                    <span style="font-size: 0.75rem; letter-spacing: 1.5px; margin-top: 6px; color: #8b92a5; font-weight: bold; text-transform: uppercase; text-align: center;">Coins</span>
+                </div>
+
             </div>
         </header>
 
         <div class="main-content" id="main-content">
             
             <div class="left-panel">
-                
                 <div class="dia-header"><span style="color: var(--alura-green);">[ Módulo 01 ]</span> A Base Sólida<div class="dia-line"></div></div>
                 
                 <div class="aula-item" id="menu-fase1" onclick="carregarAula('fase1', 'Presente e Afirmações', this)">
-                    <span class="icon-status" style="color: var(--alura-green);">✓</span>
-                    <span class="aula-title">Fase 01: Presente e Afirmações</span><span class="xp-badge">15xp</span>
+                    <span class="icon-status">✓</span>
+                    <span class="aula-title">Fase 01: Presente e Afirmações</span>
+                    <span class="xp-badge">15xp</span>
                 </div>
 
                 <div class="aula-item" id="menu-fase2" onclick="carregarAula('fase2', 'Perguntas (Do / Does)', this)">
-                    <span class="icon-status" style="color: var(--alura-green);">✓</span>
-                    <span class="aula-title">Fase 02: Perguntas (Do / Does)</span><span class="xp-badge">15xp</span>
+                    <span class="icon-status">▶</span>
+                    <span class="aula-title">Fase 02: Perguntas (Do / Does)</span>
+                    <span class="xp-badge">15xp</span>
                 </div>
 
-                <div class="aula-item" id="menu-fase3" onclick="carregarAula('fase3', 'Negações (Don\'t / Doesn\'t)', this)">
-                    <span class="icon-status" style="color: var(--alura-green);">✓</span>
-                    <span class="aula-title">Fase 03: Negações e Recusas</span><span class="xp-badge">15xp</span>
+                <div class="aula-item" id="menu-fase3" onclick="carregarAula('fase3', 'Negações e Recusas', this)">
+                    <span class="icon-status">▶</span>
+                    <span class="aula-title">Fase 03: Negações e Recusas</span>
+                    <span class="xp-badge">15xp</span>
                 </div>
 
                 <div class="dia-header"><span style="color: var(--alura-cyan);">[ Módulo 02 ]</span> Tempos e Ações<div class="dia-line"></div></div>
 
                 <div class="aula-item" id="menu-fase4" onclick="carregarAula('fase4', 'Futuro Simples (Will)', this)">
-                    <span class="icon-status" style="color: var(--alura-cyan);">▶</span>
-                    <span class="aula-title">Fase 04: Futuro Simples (Will)</span><span class="xp-badge" style="color: var(--alura-cyan); border-color: var(--alura-cyan); background: transparent;">20xp</span>
+                    <span class="icon-status">▶</span>
+                    <span class="aula-title">Fase 04: Futuro Simples (Will)</span>
+                    <span class="xp-badge">20xp</span>
                 </div>
 
                 <div class="aula-item" id="menu-fase5" onclick="carregarAula('fase5', 'Gerúndio (ING / Endo)', this)">
-                    <span class="icon-status" style="color: var(--alura-cyan);">▶</span>
-                    <span class="aula-title">Fase 05: Gerúndio (ING / Endo)</span><span class="xp-badge" style="color: var(--alura-cyan); border-color: var(--alura-cyan); background: transparent;">20xp</span>
+                    <span class="icon-status">▶</span>
+                    <span class="aula-title">Fase 05: Gerúndio (ING / Endo)</span>
+                    <span class="xp-badge">20xp</span>
                 </div>
 
                 <div class="dia-header"><span style="color: #8a2be2;">[ Módulo 03 ]</span> Imersão Técnica<div class="dia-line" style="background: linear-gradient(90deg, #8a2be2, transparent);"></div></div>
 
                 <div class="aula-item" id="menu-fase6" onclick="carregarAula('fase6', 'Preposições (In, On, At)', this)">
-                    <span class="icon-status" style="color: var(--text-light); font-size: 0.8rem;">▶</span>
-                    <span class="aula-title">Fase 06: Preposições (In, On, At)</span><span class="xp-badge" style="color: var(--text-light); border-color: var(--text-light); background: transparent;">25xp</span>
+                    <span class="icon-status">▶</span>
+                    <span class="aula-title">Fase 06: Preposições (In, On, At)</span>
+                    <span class="xp-badge">25xp</span>
                 </div>
 
                 <div class="aula-item" id="menu-fase7" onclick="carregarAula('fase7', 'Passado Simples (Did)', this)">
-                    <span class="icon-status" style="color: var(--text-light); font-size: 0.8rem;">▶</span>
-                    <span class="aula-title">Fase 07: Passado Simples (Did)</span><span class="xp-badge" style="color: var(--text-light); border-color: var(--text-light); background: transparent;">30xp</span>
+                    <span class="icon-status">▶</span>
+                    <span class="aula-title">Fase 07: Passado Simples (Did)</span>
+                    <span class="xp-badge">30xp</span>
                 </div>
 
-                <div class="dia-header"><span style="color: #4b5563;">[ Módulo 04 ]</span> Em Breve...<div class="dia-line dia-line-locked"></div></div>
-
-                <div class="aula-item aula-locked-item" style="cursor: not-allowed; opacity: 0.6; margin-bottom: 0;">
-                    <span class="icon-status" style="color: #4b5563;">🔒</span>
-                    <span class="aula-title aula-locked">Fase 08: Verbos Irregulares</span><span class="xp-badge xp-badge-locked">??? xp</span>
+                <div class="dia-header" style="margin-top: 30px;">
+                    <span style="color: #ffd700;">[ BÔNUS ]</span> Loja de Conteúdo
+                    <div class="dia-line" style="background: linear-gradient(90deg, #ffd700, transparent);"></div>
                 </div>
 
+                <div class="aula-item" id="menu-bonus1" onclick="tentarAbrirBonus('bonus1', 50, 'Gírias Tech (Slangs)', this)">
+                    <span class="icon-status" id="icon-bonus1">🔒</span>
+                    <span class="aula-title">Gírias Tech (Slangs)</span>
+                    <span class="xp-badge" id="price-bonus1" style="border-color: #ffd700; color: #ffd700;">🪙 50</span>
+                </div>
+
+                <div class="aula-item" id="menu-bonus2" onclick="tentarAbrirBonus('bonus2', 100, 'Inglês para Entrevistas', this)">
+                    <span class="icon-status" id="icon-bonus2">🔒</span>
+                    <span class="aula-title">Inglês para Entrevistas</span>
+                    <span class="xp-badge" id="price-bonus2" style="border-color: #ffd700; color: #ffd700;">🪙 100</span>
+                </div>
             </div>
 
             <div class="right-panel" id="right-panel">
@@ -103,7 +128,7 @@
                 <div class="flashcard-container" onclick="virarCarta()">
                     <div class="flashcard-inner" id="meuCard">
                         <div class="flashcard-front">
-                            <h2 id="texto-frente">Selecione uma aula na esquerda para começar!</h2>
+                            <h2 id="texto-frente">Selecione uma aula acima para começar!</h2>
                             <p class="click-hint" id="dica-frente"></p>
                         </div>
                         <div class="flashcard-back">
@@ -120,12 +145,29 @@
 
                 <div class="flashcard-actions" id="botao-proxima" style="display: none;">
                     <button class="btn-action" style="width: 100%; background: linear-gradient(90deg, var(--alura-cyan), var(--alura-purple)); color: white; border: none; font-size: 1.1rem;" onclick="irParaProximaAula()">
-                        🚀 Ir para a próxima atividade
+                        🚀 Finalizar Lição e Resgatar Coins
                     </button>
                 </div>
-
             </div>
         </div> 
+    </div>
+
+    <footer class="main-footer"><p>Created By <span class="tech-text">DevMaycon</span></p></footer>
+
+    <div class="modal-overlay" id="modalNivelamento" style="background-color: #0b0c10;">
+        <div class="modal-content" style="max-width: 600px; text-align: center;">
+            <div class="modal-header" style="justify-content: center;">
+                <h2><span class="tech-text">Teste de Nivelamento</span></h2>
+            </div>
+            <div class="modal-body" id="nivelamento-body">
+                <p style="color: #c5c6c7; font-size: 1.1rem; margin-bottom: 20px;">
+                    Bem-vindo(a)! Para personalizarmos sua jornada e desbloquearmos as fases corretas, vamos fazer um teste rápido de 3 questões.
+                </p>
+                <button class="btn-action btn-right" style="width: 100%; padding: 15px;" onclick="iniciarQuizNivelamento()">
+                    Iniciar Avaliação
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="modal-overlay" id="modalCriacao">
@@ -136,30 +178,24 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Escolha a Fase:</label>
-                    <select id="nova-fase">
+                    <label>Escolha a Fase de Destino:</label>
+                    <select id="nova-fase" style="cursor: pointer;">
                         <option value="fase1">Fase 01: Presente e Afirmações</option>
-                        <option value="fase2">Fase 02: Perguntas (Do e Does)</option>
-                        <option value="fase4">Fase 04: Futuro (Will)</option>
-                        <option value="fase5">Fase 05: Gerúndio (ING)</option>
+                        <option value="fase2">Fase 02: Perguntas (Do / Does)</option>
+                        <option value="fase3">Fase 03: Negações e Recusas</option>
+                        <option value="fase4">Fase 04: Futuro Simples (Will)</option>
+                        <option value="fase5">Fase 05: Gerúndio (ING / Endo)</option>
+                        <option value="fase6">Fase 06: Preposições (In, On, At)</option>
+                        <option value="fase7">Fase 07: Passado Simples (Did)</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Frente (Sua pergunta ou frase em Português):</label>
-                    <input type="text" id="nova-frente" placeholder="Ex: Eu gosto de estudar tecnologia" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label>Verso (A Resposta em Inglês):</label>
-                    <input type="text" id="nova-verso" placeholder="Ex: I like to study technology" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label>Dica / Regra (Opcional):</label>
-                    <input type="text" id="nova-dica" placeholder="Ex: Lembre-se do 'To' entre os verbos" autocomplete="off">
-                </div>
+                <div class="form-group"><label>Frente (Português):</label><input type="text" id="nova-frente" placeholder="Ex: O sistema não salva os dados"></div>
+                <div class="form-group"><label>Verso (Inglês):</label><input type="text" id="nova-verso" placeholder="Ex: The system doesn't save the data"></div>
+                <div class="form-group"><label>Dica / Regra (Opcional):</label><input type="text" id="nova-dica" placeholder="Ex: System é 'It', logo usamos doesn't"></div>
             </div>
             <div class="modal-footer">
                 <button class="btn-action btn-wrong" style="flex: 0.5;" onclick="fecharModal('modalCriacao')">Cancelar</button>
-                <button class="btn-action btn-right" style="flex: 1;" onclick="salvarFlashcard()">Salvar Flashcard</button>
+                <button class="btn-action btn-right" style="flex: 1;" onclick="salvarFlashcard()">Salvar no Deck</button>
             </div>
         </div>
     </div>
@@ -170,7 +206,8 @@
                 <h2><span class="icon">📊</span> Meu Progresso</h2>
                 <button class="btn-close" onclick="fecharModal('modalProgresso')">×</button>
             </div>
-            <div class="modal-body" id="progresso-body"></div>
+            <div class="modal-body" id="progresso-body">
+                </div>
             <div class="modal-footer">
                 <button class="btn-action btn-right" style="flex: 1;" onclick="fecharModal('modalProgresso')">Impressionante! Fechar</button>
             </div>
@@ -194,16 +231,8 @@
         </div>
     </div>
 
-    </div> </div> </div> <footer class="main-footer">
-        <p>Created By <span class="tech-text">DevMaycon</span></p>
-    </footer>
-
-    <div class="modal-overlay" id="modalCriacao">
-        <div class="modal-content">
-
     <script>
         if (!localStorage.getItem('quest_user_name')) { window.location.href = 'login/login.html'; }
-        if (!localStorage.getItem('quest_xp')) { localStorage.setItem('quest_xp', '25'); }
     </script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>

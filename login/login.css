@@ -23,11 +23,10 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden; /* Evita rolagem na tela de login */
+    overflow: hidden; 
     position: relative;
 }
 
-/* Brilho neon sutil no fundo (Efeito Alura) */
 .glow-background {
     position: absolute;
     width: 600px;
@@ -53,21 +52,11 @@ body {
     border-radius: 12px;
     padding: 40px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    border-top: 3px solid var(--alura-cyan); /* Detalhe premium no topo */
+    border-top: 3px solid var(--alura-cyan); 
 }
 
-/* --- Cabeçalho --- */
-.login-header {
-    text-align: center;
-    margin-bottom: 35px;
-}
-
-.login-header h1 {
-    color: var(--text-white);
-    font-size: 2rem;
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
-}
+.login-header { text-align: center; margin-bottom: 35px; }
+.login-header h1 { color: var(--text-white); font-size: 2rem; margin-bottom: 8px; letter-spacing: -0.5px; }
 
 .tech-text {
     background: linear-gradient(90deg, var(--alura-cyan), var(--alura-purple));
@@ -77,31 +66,11 @@ body {
     font-weight: 800;
 }
 
-.login-header p {
-    font-size: 0.95rem;
-    color: #8b92a5;
-}
+.login-header p { font-size: 0.95rem; color: #8b92a5; }
 
-/* --- Formulário (Estilo curso.dev) --- */
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.input-group label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+.login-form { display: flex; flex-direction: column; gap: 20px; }
+.input-group { display: flex; flex-direction: column; gap: 8px; }
+.input-group label { font-size: 0.85rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
 
 .input-group input {
     background-color: var(--bg-dark);
@@ -116,32 +85,15 @@ body {
 .input-group input:focus {
     outline: none;
     border-color: var(--alura-cyan);
-    box-shadow: 0 0 0 3px rgba(0, 230, 230, 0.1); /* Efeito de foco suave */
+    box-shadow: 0 0 0 3px rgba(0, 230, 230, 0.1); 
 }
 
-.input-group input::placeholder {
-    color: #4b5563;
-}
+.input-group input::placeholder { color: #4b5563; }
 
-.forgot-password {
-    text-align: right;
-    margin-top: -10px;
-}
+.forgot-password { text-align: right; margin-top: -10px; }
+.forgot-password a { color: var(--alura-cyan); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: color 0.2s; }
+.forgot-password a:hover { color: #00b3b3; text-decoration: underline; }
 
-.forgot-password a {
-    color: var(--alura-cyan);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: color 0.2s;
-}
-
-.forgot-password a:hover {
-    color: #00b3b3;
-    text-decoration: underline;
-}
-
-/* --- Botão Principal --- */
 .btn-login {
     background: linear-gradient(90deg, var(--alura-cyan), #00b3b3);
     color: var(--bg-dark);
@@ -155,42 +107,19 @@ body {
     margin-top: 10px;
 }
 
-.btn-login:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 230, 230, 0.3);
-}
+.btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 230, 230, 0.3); }
+.btn-login:active { transform: translateY(0); }
 
-.btn-login:active {
-    transform: translateY(0);
-}
-
-/* --- Rodapé --- */
 .login-footer {
     margin-top: 30px;
     text-align: center;
     border-top: 1px solid var(--border-color);
     padding-top: 20px;
 }
+.login-footer p { font-size: 0.9rem; color: #8b92a5; }
+.login-footer a { color: var(--text-white); font-weight: bold; text-decoration: none; transition: color 0.2s; }
+.login-footer a:hover { color: var(--alura-purple); }
 
-.login-footer p {
-    font-size: 0.9rem;
-    color: #8b92a5;
-}
-
-.login-footer a {
-    color: var(--text-white);
-    font-weight: bold;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.login-footer a:hover {
-    color: var(--alura-purple);
-}
-
-/* Responsividade Básica */
 @media screen and (max-width: 480px) {
-    .login-card {
-        padding: 30px 20px;
-    }
+    .login-card { padding: 30px 20px; }
 }

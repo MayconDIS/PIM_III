@@ -83,5 +83,24 @@ const bancoDeDados = {
         {"frente": "Eu representei minha turma no último semestre.", "verso": "I represented my class last semester.", "dica": "Adiciona-se 'ed' no final do verbo regular 'represent'."},
         {"frente": "O aplicativo funcionou sem bugs.", "verso": "The application worked without bugs.", "dica": "A pronúncia do passado de 'work' soa como um 'T' no final (work-t)."},
         {"frente": "Eles escreveram o código em C.", "verso": "They wrote the code in C.", "dica": "O passado do verbo escrever (write) é 'wrote'."}
+    ],
+        "bonus1": [
+        {"frente": "AFK (Away From Keyboard)", "verso": "Longe do teclado / Ausente.", "dica": "Usado quando você vai sair do pc por um momento."},
+        {"frente": "BRB (Be Right Back)", "verso": "Volto já / Já volto.", "dica": "Muito comum em chats de jogos e trabalho."},
+        {"frente": "ASAP (As Soon As Possible)", "verso": "O mais rápido possível.", "dica": "Quando o chefe pede algo 'pra ontem'."},
+        {"frente": "FYI (For Your Information)", "verso": "Para sua informação.", "dica": "Usado em e-mails para encaminhar algo útil."},
+        {"frente": "Bug", "verso": "Falha ou erro no código.", "dica": "Não é um erro, é uma feature não documentada (brincadeira)."},
+        {"frente": "Feature", "verso": "Funcionalidade ou recurso novo.", "dica": "Algo que foi planejado para o sistema."},
+        {"frente": "Deploy", "verso": "Implantar / Colocar no ar.", "dica": "O ato de publicar o site para o mundo."},
+        {"frente": "Commit", "verso": "Salvar alterações no código.", "dica": "O que você faz no Git para guardar o progresso."}
+    ],
+    "bonus2": [
+        {"frente": "What are your strengths?", "verso": "Quais são seus pontos fortes?", "dica": "Pergunta clássica de RH."},
+        {"frente": "I am a problem solver.", "verso": "Eu sou um solucionador de problemas.", "dica": "Ótima resposta para devs."},
+        {"frente": "I work well in a team.", "verso": "Eu trabalho bem em equipe.", "dica": "Soft skill essencial."},
+        {"frente": "I am willing to learn.", "verso": "Estou disposto a aprender.", "dica": "Mostra humildade e proatividade."},
+        {"frente": "Do you have experience with Scrum?", "verso": "Você tem experiência com Scrum?", "dica": "Metodologia ágil muito usada."},
+        {"frente": "I can handle pressure.", "verso": "Eu consigo lidar com pressão.", "dica": "Importante para prazos apertados."},
+        {"frente": "Where do you see yourself in 5 years?", "verso": "Onde você se vê em 5 anos?", "dica": "Fale sobre crescimento na área técnica."}
     ]
 };

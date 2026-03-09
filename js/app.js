@@ -1,45 +1,152 @@
 // js/app.js
 
 // ==========================================
-// 1. PERSISTÊNCIA E LOGIN
+// 1. INICIALIZAÇÃO, DADOS E NOMES (FEEDBACK 3)
 // ==========================================
-const nomeSalvo = localStorage.getItem('quest_user_name') || 'Maycon';
-document.querySelector('.user-info h1').innerHTML = `Bem-vindo(a) de volta, <span class="tech-text">${nomeSalvo}!</span>`;
+const nomeSalvo = localStorage.getItem('quest_user_name') || 'Desenvolvedor';
+document.getElementById('header-user-name').innerText = nomeSalvo;
+document.getElementById('menu-user-name').innerText = nomeSalvo;
 
-let xpTotal = parseInt(localStorage.getItem('quest_xp')) || 25;
+let xpTotal = parseInt(localStorage.getItem('quest_xp')) || 0;
+let coinsTotal = parseInt(localStorage.getItem('quest_coins')) || 0;
 document.getElementById('xp-display').innerText = `${xpTotal} XP`;
+document.getElementById('coin-display').innerText = `🪙 ${coinsTotal}`;
 
-let meusDecks = JSON.parse(localStorage.getItem('quest_decks'));
-if (!meusDecks) {
-    meusDecks = JSON.parse(JSON.stringify(bancoDeDados));
+let meusDecks = JSON.parse(localStorage.getItem('quest_decks')) || JSON.parse(JSON.stringify(bancoDeDados));
+
+// ==========================================
+// 2. SISTEMA DE DESBLOQUEIO E PROGRESSÃO (FEEDBACK 4)
+// ==========================================
+const ordemFases = ['fase1', 'fase2', 'fase3', 'fase4', 'fase5', 'fase6', 'fase7'];
+let fasesDesbloqueadas = JSON.parse(localStorage.getItem('quest_desbloqueadas')) || ['fase1'];
+
+function atualizarFasesVisuais() {
+    ordemFases.forEach(fase => {
+        const elementoFase = document.getElementById('menu-' + fase);
+        if (!elementoFase) return;
+
+        if (fasesDesbloqueadas.includes(fase)) {
+            elementoFase.classList.remove('aula-locked-item');
+            const icon = elementoFase.querySelector('.icon-status');
+            if (icon && icon.innerText === '🔒') icon.innerText = '▶';
+        } else {
+            elementoFase.classList.add('aula-locked-item');
+            const icon = elementoFase.querySelector('.icon-status');
+            if (icon) icon.innerText = '🔒';
+        }
+    });
 }
 
 // ==========================================
-// 2. VARIÁVEIS DE JOGO
+// 3. FEEDBACK 1: SISTEMA DE NIVELAMENTO (PLACEMENT TEST)
+// ==========================================
+const quizPerguntas = [
+    { p: "Preencha a lacuna: 'He ____ to code in Python.'", r: ["like", "likes", "liking"], certa: 1 },
+    { p: "Qual o auxiliar correto para a pergunta: '____ they understand Artificial Intelligence?'", r: ["Do", "Does", "Are"], certa: 0 },
+    { p: "Traduza: 'O sistema não salva os dados.'", r: ["The system don't save the data.", "The system doesn't save the data."], certa: 1 }
+];
+let questaoAtualNivelamento = 0;
+let acertosNivelamento = 0;
+
+function verificarNivelamento() {
+    const jaNivelou = localStorage.getItem('quest_nivelado');
+    if (!jaNivelou) {
+        document.getElementById('modalNivelamento').classList.add('show');
+    } else {
+        atualizarFasesVisuais(); // Se já nivelou, só atualiza a tela
+    }
+}
+
+function iniciarQuizNivelamento() {
+    renderizarPerguntaNivelamento();
+}
+
+function renderizarPerguntaNivelamento() {
+    const body = document.getElementById('nivelamento-body');
+    const perguntaObj = quizPerguntas[questaoAtualNivelamento];
+    
+    let htmlRespostas = perguntaObj.r.map((resposta, index) => 
+        `<button class="btn-action" style="width: 100%; margin-bottom: 10px; text-align: left;" onclick="responderNivelamento(${index})">${resposta}</button>`
+    ).join('');
+
+    body.innerHTML = `
+        <h3 style="color: var(--alura-cyan); margin-bottom: 15px;">Questão ${questaoAtualNivelamento + 1} de ${quizPerguntas.length}</h3>
+        <p style="color: #fff; font-size: 1.1rem; margin-bottom: 25px;">${perguntaObj.p}</p>
+        ${htmlRespostas}
+    `;
+}
+
+function responderNivelamento(indiceResposta) {
+    if (indiceResposta === quizPerguntas[questaoAtualNivelamento].certa) {
+        acertosNivelamento++;
+    }
+    
+    questaoAtualNivelamento++;
+    
+    if (questaoAtualNivelamento < quizPerguntas.length) {
+        renderizarPerguntaNivelamento();
+    } else {
+        finalizarNivelamento();
+    }
+}
+
+function finalizarNivelamento() {
+    let nivelMsg = "";
+    
+    if (acertosNivelamento <= 1) {
+        nivelMsg = "Iniciante. Começaremos da Fase 01 para construir uma base sólida!";
+        fasesDesbloqueadas = ['fase1'];
+    } else if (acertosNivelamento === 2) {
+        nivelMsg = "Intermediário. Mandou bem! Você já tem as Fases 01, 02 e 03 desbloqueadas.";
+        fasesDesbloqueadas = ['fase1', 'fase2', 'fase3'];
+        // XP e Coins de bônus removidos. Começa do zero!
+    } else {
+        nivelMsg = "Expert! Excelente conhecimento. Fases de 01 a 05 desbloqueadas!";
+        fasesDesbloqueadas = ['fase1', 'fase2', 'fase3', 'fase4', 'fase5'];
+        // XP e Coins de bônus removidos. Começa do zero!
+    }
+
+    // Salva o progresso inicial no banco
+    localStorage.setItem('quest_nivelado', 'true');
+    localStorage.setItem('quest_desbloqueadas', JSON.stringify(fasesDesbloqueadas));
+    
+    // Garante que grave o zero no banco de dados do navegador
+    localStorage.setItem('quest_xp', xpTotal);
+    localStorage.setItem('quest_coins', coinsTotal);
+    
+    document.getElementById('xp-display').innerText = `${xpTotal} XP`;
+    document.getElementById('coin-display').innerText = `🪙 ${coinsTotal}`;
+
+    document.getElementById('nivelamento-body').innerHTML = `
+        <h3 style="color: var(--alura-green); margin-bottom: 15px;">Avaliação Concluída!</h3>
+        <p style="color: #c5c6c7; margin-bottom: 25px;">${nivelMsg}</p>
+        <button class="btn-action btn-right" style="width: 100%;" onclick="fecharModal('modalNivelamento'); atualizarFasesVisuais();">Começar Minha Jornada</button>
+    `;
+}
+
+// ==========================================
+// 4. MECÂNICA DE FLASHCARDS E ACCORDION (FEEDBACK 5)
 // ==========================================
 let deckAtual = [];
 let deckRevisao = []; 
 let indiceCarta = 0;
-let faseAtualId = ''; // NOVO: Memoriza em qual fase estamos
-// A ordem correta para o botão "Próxima Atividade" seguir
-const ordemFases = ['fase1', 'fase2', 'fase3', 'fase4', 'fase5', 'fase6', 'fase7'];
+let faseAtualId = ''; 
 
-// ==========================================
-// 3. MECÂNICA DOS FLASHCARDS
-// ==========================================
 function carregarAula(faseId, nomeAula, elementoClicado) {
+    // Trava de segurança: impede abrir se estiver bloqueado
+    if (!fasesDesbloqueadas.includes(faseId)) {
+        alert("🔒 Esta fase está bloqueada. Complete as fases anteriores para liberar!");
+        return;
+    }
+
     const mainContent = document.getElementById('main-content');
     const rightPanel = document.getElementById('right-panel');
-    const header = document.querySelector('.dashboard-header');
 
+    // Mágica do Accordion: Abre e fecha no mesmo lugar
     if (elementoClicado.classList.contains('active-lesson')) {
         elementoClicado.classList.remove('active-lesson');
-        mainContent.classList.remove('show-flashcards'); 
         rightPanel.classList.remove('active'); 
-        header.classList.remove('expand'); 
-        
-        // Se fechou no celular, devolve o painel pro lugar original escondido
-        if (window.innerWidth <= 900) { mainContent.appendChild(rightPanel); }
+        setTimeout(() => { rightPanel.style.display = 'none'; }, 300); // Aguarda a animação
         return; 
     }
 
@@ -47,19 +154,12 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     elementoClicado.classList.add('active-lesson');
     document.getElementById('titulo-aula').innerHTML = `Estudo Ativo: <span style="color: var(--alura-cyan)">${nomeAula}</span>`;
 
-    // ===== MÁGICA DA RESPONSIVIDADE =====
-    if (window.innerWidth <= 900) {
-        // Se for Celular: Move o painel de cartas para LOGO ABAIXO da aula clicada
-        elementoClicado.after(rightPanel);
-    } else {
-        // Se for PC: Garante que o painel fique na coluna da direita
-        mainContent.appendChild(rightPanel);
-    }
-    // ====================================
-
-    mainContent.classList.add('show-flashcards');
-    rightPanel.classList.add('active');
-    header.classList.add('expand');
+    // FEEDBACK 5: O painel é injetado LOGO ABAIXO da aula clicada sempre.
+    elementoClicado.after(rightPanel);
+    rightPanel.style.display = 'block';
+    
+    // Força um pequeno delay para a animação CSS pegar
+    setTimeout(() => { rightPanel.classList.add('active'); }, 10);
 
     document.getElementById('botoes-jogo').style.display = 'flex';
     document.getElementById('botao-proxima').style.display = 'none';
@@ -72,20 +172,81 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     mostrarCartaAtual();
 }
 
-// NOVO: Função que vigia se você virou o celular ou redimensionou a tela do PC
-window.addEventListener('resize', () => {
-    const rightPanel = document.getElementById('right-panel');
-    const mainContent = document.getElementById('main-content');
-    const activeLesson = document.querySelector('.active-lesson');
+// ==========================================
+// 2.1 SISTEMA DE LOJA E BÔNUS (NOVO)
+// ==========================================
+let bonusDesbloqueados = JSON.parse(localStorage.getItem('quest_bonus_unlocked')) || [];
 
-    if (window.innerWidth > 900) {
-        // Voltou pro PC? Joga pra coluna da direita
-        mainContent.appendChild(rightPanel);
-    } else if (activeLesson) {
-        // Foi pro Celular? Joga pra baixo da aula ativa
-        activeLesson.after(rightPanel);
+// Atualiza o visual dos bônus ao carregar a página
+function atualizarVisualBonus() {
+    bonusDesbloqueados.forEach(bonusId => {
+        const item = document.getElementById('menu-' + bonusId);
+        const icon = document.getElementById('icon-' + bonusId);
+        const price = document.getElementById('price-' + bonusId);
+        
+        if (item) {
+            // Remove o cadeado e coloca o Play
+            if (icon) icon.innerText = '▶';
+            
+            // Troca o preço por apenas a moedinha indicando que já é seu
+            if (price) {
+                price.innerText = '🪙'; // MUDANÇA: Agora fica só a moeda!
+                price.style.borderColor = 'var(--alura-green)'; // Fica com a borda verde de sucesso
+                price.style.background = 'rgba(0, 255, 136, 0.05)'; // Fundo verde bem suave
+            }
+        }
+    });
+}
+
+// Tenta comprar ou abrir a aula bônus
+function tentarAbrirBonus(bonusId, custo, nomeAula, elementoClicado) {
+    
+    // 1. Verifica se já foi comprado antes
+    if (bonusDesbloqueados.includes(bonusId)) {
+        // Se já comprou, abre a aula normalmente!
+        // Mas antes precisamos "enganar" a função carregarAula adicionando o bonus na lista de permitidos temporariamente
+        if (!fasesDesbloqueadas.includes(bonusId)) fasesDesbloqueadas.push(bonusId);
+        carregarAula(bonusId, nomeAula, elementoClicado);
+        return;
     }
-});
+
+    // 2. Se não comprou, oferece a compra
+    const confirmar = confirm(`🔒 CONTEÚDO PREMIUM\n\nDeseja desbloquear "${nomeAula}" por 🪙 ${custo} Coins?\n\nSeu saldo atual: 🪙 ${coinsTotal}`);
+
+    if (confirmar) {
+        if (coinsTotal >= custo) {
+            // Toca o som de caixa registradora (imaginário por enquanto)
+            
+            // 3. Deduz o valor e salva
+            coinsTotal -= custo;
+            bonusDesbloqueados.push(bonusId);
+            
+            localStorage.setItem('quest_coins', coinsTotal);
+            localStorage.setItem('quest_bonus_unlocked', JSON.stringify(bonusDesbloqueados));
+            
+            // Atualiza a tela
+            document.getElementById('coin-display').innerText = `🪙 ${coinsTotal}`;
+            atualizarVisualBonus();
+            
+            alert(`🎉 Compra realizada com sucesso!\nO módulo "${nomeAula}" agora é seu para sempre.`);
+            
+            // Abre a aula automaticamente após a compra
+            fasesDesbloqueadas.push(bonusId); // Necessário para passar na validação do carregarAula
+            carregarAula(bonusId, nomeAula, elementoClicado);
+
+        } else {
+            alert(`🚫 Saldo Insuficiente!\nVocê precisa de 🪙 ${custo} Coins, mas só tem 🪙 ${coinsTotal}.\n\nContinue estudando as fases normais para ganhar mais moedas!`);
+        }
+    }
+}
+
+// IMPORTANTE: Adicione esta chamada no final do arquivo, junto com o window.onload
+// para garantir que os itens comprados continuem comprados quando você voltar.
+const onloadOriginal = window.onload;
+window.onload = function() {
+    if (onloadOriginal) onloadOriginal();
+    atualizarVisualBonus();
+};
 
 function mostrarCartaAtual() {
     const cardInner = document.getElementById('meuCard');
@@ -95,50 +256,10 @@ function mostrarCartaAtual() {
     if (!carta) return; 
 
     document.getElementById('texto-frente').innerText = carta.frente;
-    document.getElementById('dica-frente').innerText = "Clique na carta ou aperte ESPAÇO para revelar a resposta";
+    document.getElementById('dica-frente').innerText = "Clique ou aperte ESPAÇO para revelar";
     document.getElementById('texto-verso').innerText = carta.verso;
     document.getElementById('dica-verso').innerText = carta.dica || ""; 
     document.getElementById('contador-cartas').innerText = `Carta ${indiceCarta + 1} de ${deckAtual.length}`;
-}
-
-function finalizarDeck() {
-    document.getElementById('texto-frente').innerText = "Parabéns! Você concluiu este deck 🎉";
-    document.getElementById('texto-verso').innerText = "Excelente trabalho!";
-    document.getElementById('dica-verso').innerText = "";
-    document.getElementById('dica-frente').innerText = "";
-    document.getElementById('contador-cartas').innerText = "Concluído";
-
-    // MUDANÇA: Esconde os botões de jogo e mostra o botão de Próxima Atividade
-    document.getElementById('botoes-jogo').style.display = 'none';
-    const btnProximaContainer = document.getElementById('botao-proxima');
-    const btnPratico = btnProximaContainer.querySelector('button');
-    btnProximaContainer.style.display = 'flex';
-
-    // Se for a última fase (Fase 05), muda o texto do botão
-    const indexAtual = ordemFases.indexOf(faseAtualId);
-    if (indexAtual >= 0 && indexAtual < ordemFases.length - 1) {
-        btnPratico.innerHTML = "🚀 Ir para a próxima atividade";
-    } else {
-        btnPratico.innerHTML = "🏆 Finalizar Estudos";
-    }
-}
-
-// NOVO: Função que pula para a próxima aula automaticamente
-function irParaProximaAula() {
-    const indexAtual = ordemFases.indexOf(faseAtualId);
-    
-    // Se ainda houver uma próxima fase na lista...
-    if (indexAtual >= 0 && indexAtual < ordemFases.length - 1) {
-        const proximaFase = ordemFases[indexAtual + 1];
-        // Encontra o botão no menu da esquerda e simula um clique nele!
-        const elementoProxima = document.getElementById('menu-' + proximaFase);
-        if (elementoProxima) {
-            elementoProxima.click(); 
-        }
-    } else {
-        // Se for a última (Fase 05), apenas fecha o painel direito e guarda o material
-        document.getElementById('menu-' + faseAtualId).click();
-    }
 }
 
 function virarCarta() {
@@ -179,50 +300,105 @@ function processarResposta(resultado) {
     }, 300); 
 }
 
+// FEEDBACK 2 e 4: Recompensa e Desbloqueio ao Finalizar
+function finalizarDeck() {
+    document.getElementById('texto-frente').innerText = "Parabéns! Lição Concluída 🎉";
+    document.getElementById('texto-verso').innerText = "Você dominou estas cartas.";
+    document.getElementById('dica-verso').innerText = "";
+    document.getElementById('contador-cartas').innerText = "Concluído";
+
+    document.getElementById('botoes-jogo').style.display = 'none';
+    document.getElementById('botao-proxima').style.display = 'flex';
+}
+
+function irParaProximaAula() {
+    // 1. Concede bônus de conclusão (Coins)
+    coinsTotal += 15;
+    localStorage.setItem('quest_coins', coinsTotal);
+    document.getElementById('coin-display').innerText = `🪙 ${coinsTotal}`;
+
+    // 2. Lógica de Desbloqueio Sequencial
+    const indexAtual = ordemFases.indexOf(faseAtualId);
+    if (indexAtual >= 0 && indexAtual < ordemFases.length - 1) {
+        const proximaFase = ordemFases[indexAtual + 1];
+        
+        // Se a próxima fase ainda não está no array, adiciona
+        if (!fasesDesbloqueadas.includes(proximaFase)) {
+            fasesDesbloqueadas.push(proximaFase);
+            localStorage.setItem('quest_desbloqueadas', JSON.stringify(fasesDesbloqueadas));
+            atualizarFasesVisuais(); // Atualiza os cadeados na tela
+            alert(`🔓 Nova Conquista! Você liberou a ${proximaFase.toUpperCase()} e ganhou 15 Coins!`);
+        }
+    }
+
+    // 3. Fecha o painel atual (efeito sanfona)
+    document.getElementById('menu-' + faseAtualId).click();
+}
+
 // ==========================================
-// 4. SISTEMA DE MENUS E MODAIS
+// 5. SISTEMA DE MENUS E MODAIS 
 // ==========================================
 function toggleMenu() { document.getElementById('dropdownMenu').classList.toggle('show'); }
 
 document.addEventListener('click', function(event) {
     const menu = document.getElementById('dropdownMenu');
     const btn = document.querySelector('.hamburger-btn');
-    if (!menu.contains(event.target) && !btn.contains(event.target)) { menu.classList.remove('show'); }
+    if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) { 
+        menu.classList.remove('show'); 
+    }
 });
 
 function abrirModal(idModal) {
     document.getElementById(idModal).classList.add('show');
-    document.getElementById('dropdownMenu').classList.remove('show'); 
+    const menu = document.getElementById('dropdownMenu');
+    if(menu) menu.classList.remove('show'); 
 }
 
 function fecharModal(idModal) { document.getElementById(idModal).classList.remove('show'); }
 
+function deslogar() {
+    if (confirm("Deseja mesmo sair do sistema?")) {
+        localStorage.removeItem('quest_user_name');
+        window.location.href = 'login/login.html'; 
+    }
+}
+
+// Inicializa a página rodando o verificador de Nivelamento
+window.onload = verificarNivelamento;
+
 // ==========================================
-// 5. FUNCIONALIDADES DO MENU
+// 6. FUNCIONALIDADES DOS MODAIS E PROGRESSO
 // ==========================================
 function salvarFlashcard() {
-    const fase = document.getElementById('nova-fase').value;
+    // Pega a fase (em minúsculas para não dar erro)
+    const fase = document.getElementById('nova-fase').value.trim().toLowerCase();
     const frente = document.getElementById('nova-frente').value.trim();
     const verso = document.getElementById('nova-verso').value.trim();
     const dica = document.getElementById('nova-dica').value.trim();
 
-    if(!frente || !verso) { alert("⚠️ Por favor, preencha a Frente e o Verso!"); return; }
+    if(!fase || !frente || !verso) { 
+        alert("⚠️ Por favor, preencha a Fase, a Frente e o Verso!"); 
+        return; 
+    }
 
     if(!meusDecks[fase]) meusDecks[fase] = [];
     meusDecks[fase].push({ frente, verso, dica });
     localStorage.setItem('quest_decks', JSON.stringify(meusDecks));
 
+    // Limpa os campos após salvar
+    document.getElementById('nova-fase').value = '';
     document.getElementById('nova-frente').value = '';
     document.getElementById('nova-verso').value = '';
     document.getElementById('nova-dica').value = '';
     fecharModal('modalCriacao');
-    alert("✨ Flashcard salvo no seu navegador!");
+    alert("✨ Flashcard criado e salvo na " + fase.toUpperCase() + "!");
 }
 
 function mostrarProgresso() {
     let totalCartas = 0;
     let htmlEstatisticas = '';
     
+    // Varre todas as fases contando os flashcards
     for (const [fase, cartas] of Object.entries(meusDecks)) {
         totalCartas += cartas.length;
         htmlEstatisticas += `
@@ -233,8 +409,10 @@ function mostrarProgresso() {
         `;
     }
 
+    // Monta a tela de Progresso incluindo os XP e Coins
     const conteudo = `
-        <div class="stat-box highlight">XP Total Adquirido <span>${xpTotal}</span></div>
+        <div class="stat-box highlight">XP Total Adquirido <span>${xpTotal} XP</span></div>
+        <div class="stat-box highlight" style="border-color: #ffd700; background-color: rgba(255, 215, 0, 0.05);">Coins Acumulados <span style="color: #ffd700;">🪙 ${coinsTotal}</span></div>
         <div class="stat-box">Total de Cartas no Deck <span>${totalCartas}</span></div>
         <div style="margin: 20px 0; height: 1px; background: #30363d;"></div>
         ${htmlEstatisticas}
@@ -245,32 +423,14 @@ function mostrarProgresso() {
 }
 
 function resetarProgresso() {
-    const certeza = confirm("⚠️ ATENÇÃO!\nIsso vai apagar todo o seu XP e as cartas que você adicionou.\nDeseja mesmo voltar do zero?");
+    const certeza = confirm("⚠️ ATENÇÃO EXTREMA!\nIsso vai apagar todo o seu XP, Coins, Decks e Fases Desbloqueadas.\nDeseja mesmo voltar do zero?");
     if (certeza) {
         localStorage.removeItem('quest_xp');
+        localStorage.removeItem('quest_coins');
         localStorage.removeItem('quest_decks');
-        alert("♻️ Progresso resetado com sucesso!");
-        location.reload(); 
-    }
-}
-
-function deslogar() {
-    const certeza = confirm("Deseja mesmo sair do sistema?");
-    if (certeza) {
-        localStorage.removeItem('quest_user_name');
+        localStorage.removeItem('quest_nivelado');
+        localStorage.removeItem('quest_desbloqueadas');
+        alert("♻️ Progresso resetado! Retornando ao terminal de acesso...");
         window.location.href = 'login/login.html'; 
     }
 }
-
-// Atalhos de teclado
-document.addEventListener('keydown', function(event) {
-    if (document.querySelectorAll('.modal-overlay.show').length > 0) return;
-
-    const painelDireito = document.getElementById('right-panel');
-    if (!painelDireito.classList.contains('active')) return;
-    if (indiceCarta >= deckAtual.length) return;
-
-    if (event.code === 'Space') { event.preventDefault(); virarCarta(); } 
-    else if (event.code === 'ArrowLeft') { processarResposta('errei'); } 
-    else if (event.code === 'ArrowRight') { processarResposta('acertei'); }
-});

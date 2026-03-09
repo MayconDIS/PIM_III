@@ -271,16 +271,22 @@ header {
         height: 45px;
     }
 
-    /* 5. Cabeçalhos dos Módulos (Quebra de linha no celular) */
+    /* 5. Cabeçalhos dos Módulos (Quebra de linha garantida) */
     .dia-header {
-        flex-direction: column !important;      
-        align-items: flex-start !important;     
-        gap: 8px !important;                    
-        margin-top: 30px !important;            
+        display: block !important; /* Desliga o flexbox para o texto cair naturalmente */
+        line-height: 1.6 !important;
+        margin-top: 30px !important;
+        padding-bottom: 10px !important;
+        border-bottom: 1px dashed #30363d !important; /* Linha de estilo no lugar da barra longa */
+    }
+    
+    .dia-header span.tech-font {
+        display: block !important; /* Obriga a tag [ Mod_01 ] a ficar numa linha só para ela */
+        margin-bottom: 4px !important;
     }
     
     .dia-line {
-        display: none !important; 
+        display: none !important; /* Oculta a linha antiga */
     }
 }
 

@@ -157,36 +157,57 @@ header {
 .stat-box.highlight { border-color: var(--alura-green); background-color: rgba(0, 255, 136, 0.05); }
 
 /* =========================================
+   BOTÃO FLUTUANTE: VOLTAR AO TOPO (Regra Geral)
+   ========================================= */
+#btn-voltar-topo {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 999; 
+    padding: 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    opacity: 0.8;
+}
+
+#btn-voltar-topo:hover {
+    opacity: 1;
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 25px rgba(0, 230, 230, 0.4);
+}
+
+/* =========================================
    RESPONSIVIDADE (CELULARES E TABLETS)
    ========================================= */
 @media (max-width: 600px) {
     /* 1. Ajuste do Cabeçalho (Header) - NA MESMA LINHA */
     header {
         padding: 15px 15px;
-        flex-direction: row; /* Força tudo a ficar na mesma linha horizontal */
+        flex-direction: row; 
         justify-content: space-between;
         align-items: center;
     }
     .logo {
         font-size: 1.3rem;
-        justify-content: flex-start; /* Alinha a logo à esquerda */
+        justify-content: flex-start; 
     }
-    /* Oculta o "| Flashcards" para sobrar bastante espaço no celular */
     .logo span:nth-of-type(3) {
         display: none; 
     }
     .header-right {
         width: auto;
-        justify-content: flex-end; /* Empurra os botões para a direita */
-        gap: 15px; /* Espaço perfeito entre o botão Criar Carta e o Menu Hambúrguer */
+        justify-content: flex-end; 
+        gap: 15px; 
     }
-    /* Deixa o botão de criar carta um pouco mais compacto no celular para não quebrar */
     .header-right .btn-action {
         font-size: 0.85rem;
         padding: 8px 12px;
     }
-
-    /* ... (MANTENHA OS OUTROS AJUSTES DE CELULAR AQUI PARA BAIXO, COMO O PAINEL PRINCIPAL) ... */
     
     /* 2. Painel Principal (Terminal) */
     .container {
@@ -242,7 +263,7 @@ header {
         padding: 12px 10px;
     }
 
-    /* Ajuste do botão topo no celular */
+    /* Ajuste do botão topo no celular (Agora vai funcionar!) */
     #btn-voltar-topo {
         bottom: 20px;
         right: 20px;
@@ -252,14 +273,14 @@ header {
 
     /* 5. Cabeçalhos dos Módulos (Quebra de linha no celular) */
     .dia-header {
-        flex-direction: column;      /* Coloca o texto abaixo da tag */
-        align-items: flex-start;     /* Alinha tudo na esquerda */
-        gap: 4px;                    /* Dá um respiro entre a Tag e o Nome */
-        margin-top: 30px;            /* Mantém um bom espaço do módulo anterior */
+        flex-direction: column;      
+        align-items: flex-start;     
+        gap: 4px;                    
+        margin-top: 30px;            
     }
     
     .dia-line {
-        display: none; /* Oculta a linha divisória no celular para o design ficar super clean */
+        display: none; 
     }
 }
 

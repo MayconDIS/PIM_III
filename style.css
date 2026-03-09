@@ -273,14 +273,14 @@ header {
 
     /* 5. Cabeçalhos dos Módulos (Quebra de linha no celular) */
     .dia-header {
-        flex-direction: column;      
-        align-items: flex-start;     
-        gap: 4px;                    
-        margin-top: 30px;            
+        flex-direction: column !important;      
+        align-items: flex-start !important;     
+        gap: 8px !important;                    
+        margin-top: 30px !important;            
     }
     
     .dia-line {
-        display: none; 
+        display: none !important; 
     }
 }
 

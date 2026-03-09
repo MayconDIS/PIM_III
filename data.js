@@ -146,10 +146,23 @@ const bancoDeDados = {
         {"frente": "O que é Escalabilidade Horizontal?", "verso": "Adicionar MAIS servidores para dividir a carga do sistema (Cloud).", "dica": "Diferente de Vertical, que é botar mais RAM em 1 PC."},
         {"frente": "Qual o principal objetivo do Empreendedorismo em TI?", "verso": "Resolver problemas e dores do mundo real criando soluções tecnológicas escaláveis.", "dica": "Não é só código, é gerar valor ao cliente."},
         {"frente": "O que é Infraestrutura como Código (IaC)?", "verso": "Criar e gerenciar servidores escrevendo código/scripts, sem clicar em botões manuais.", "dica": "Ex: Terraform e AWS CloudFormation."}
-    ], 
+    ],
+
+    // ================= MÓDULO 05: PROVA ENADE =================
+    "fase21": [
+        {"frente": "(ENADE) Uma empresa de desenvolvimento de software adotou metodologias ágeis. Durante uma iteração, a equipe percebeu que um dos requisitos estava mal detalhado, gerando atraso.\n\nQual cerimônia do Scrum é o momento IDEAL para a equipe inspecionar esse problema de processo e sugerir melhorias para o próximo ciclo?\n\nA) Sprint Planning\nB) Daily Scrum\nC) Sprint Review\nD) Sprint Retrospective", "verso": "Alternativa D: Sprint Retrospective.\n\nJustificativa: A Retrospectiva serve exatamente para avaliar o processo, as falhas de comunicação e ferramentas, buscando melhoria contínua para a próxima Sprint.", "dica": "Foco no processo, não no produto."},
+        {"frente": "(ENADE) Na modelagem de um banco de dados relacional para um hospital, identificou-se que 'Um Paciente pode ter várias Consultas, mas uma Consulta pertence a apenas Um Paciente'.\n\nQual é o tipo de relacionamento entre as tabelas Paciente e Consulta?\n\nA) 1:1 (Um para Um)\nB) 1:N (Um para Muitos)\nC) N:N (Muitos para Muitos)\nD) Relacionamento Ternário", "verso": "Alternativa B: 1:N (Um para Muitos).\n\nJustificativa: A chave primária (PK) de Paciente irá como chave estrangeira (FK) para a tabela de Consultas.", "dica": "O lado 'Muitos' recebe a Chave Estrangeira."},
+        {"frente": "(ENADE) Uma equipe de UX/UI está refatorando o aplicativo de um banco. O sistema atual possui textos com baixo contraste, botões muito próximos e fontes pequenas. Eles decidiram aplicar os princípios de Acessibilidade (WCAG).\n\nQual das ações abaixo NÃO corresponde a uma boa prática de acessibilidade?\n\nA) Usar tags semânticas no HTML.\nB) Depender exclusivamente da cor para transmitir mensagens de erro.\nC) Adicionar atributos 'alt' em imagens.\nD) Garantir navegação via teclado.", "verso": "Alternativa B: Depender exclusivamente da cor.\n\nJustificativa: Pessoas daltônicas não conseguirão identificar o erro. O correto é usar Cor + Ícone + Texto descritivo.", "dica": "Pense na experiência de um usuário daltônico."}
+    ],
+    "fase22": [
+        {"frente": "(ENADE - Algoritmos) Considere a estrutura de dados 'Fila' (Queue) sendo usada para gerenciar requisições de impressão em um escritório. Foram inseridos, nesta ordem, os arquivos: A, B e C.\n\nSe o comando 'pop()' ou 'dequeue()' for executado duas vezes, qual arquivo restará na fila?\n\nA) Arquivo A\nB) Arquivo B\nC) Arquivo C\nD) A fila ficará vazia", "verso": "Alternativa C: Arquivo C.\n\nJustificativa: A Fila segue o princípio FIFO (First In, First Out). O primeiro a entrar é o primeiro a sair. Sairão A e B, restando apenas o C.", "dica": "FIFO = First In, First Out."},
+        {"frente": "(ENADE - Engenharia de Software) O padrão de arquitetura MVC divide o sistema em três camadas. Um desenvolvedor inseriu uma regra de negócio complexa de cálculo de juros bancários diretamente no botão da tela HTML (View).\n\nEsta prática fere o padrão MVC pois as regras de negócio deveriam estar no:\n\nA) Controller\nB) Model\nC) View\nD) Banco de Dados", "verso": "Alternativa B: Model (ou na camada de serviço acionada pelo Controller).\n\nJustificativa: A View só deve exibir dados. O Controller gerencia o tráfego. O Model detém o domínio, os dados e as regras de negócio.", "dica": "A View é 'burra', só mostra visual."},
+        {"frente": "(ENADE - Redes) Para garantir a segurança de uma aplicação web, foi solicitado que todo o tráfego fosse criptografado usando SSL/TLS. \n\nQual protocolo e qual porta padrão devem ser habilitados no firewall para essa configuração?\n\nA) HTTP - Porta 80\nB) FTP - Porta 21\nC) HTTPS - Porta 443\nD) SSH - Porta 22", "verso": "Alternativa C: HTTPS - Porta 443.\n\nJustificativa: O HTTPS (Hyper Text Transfer Protocol Secure) é a versão segura do HTTP, operando nativamente na porta 443 com certificados SSL/TLS.", "dica": "Lembre do cadeado no navegador."}
+    ],
+
     // ================= FASES BÔNUS (PREMIUM) =================
     "bonus1": [
-        {"frente": "Bônus 01: O que é a 'Deep Web'?", "verso": "A parte da internet que não é indexada por motores de busca como o Google.", "dica": "Não é necessariamente ilegal, apenas oculta (ex: intranets de empresas)."},
+        {"frente": "Bônus 01: O que é a 'Deep Web'?", "verso": "A parte da internet que não é indexada por motores de busca como o Google.", "dica": "Não é necessariamente ilegal, apenas oculta."},
         {"frente": "Bônus 01: O que foi o vírus 'ILOVEYOU' (2000)?", "verso": "Um dos maiores worms de e-mail da história que causou bilhões em prejuízos.", "dica": "Engenharia social pura."},
         {"frente": "Bônus 01: O que é o Teste de Invasão (PenTest)?", "verso": "Simular um ataque cibernético autorizado para encontrar falhas de segurança.", "dica": "Feito por Hackers Éticos."}
     ],
@@ -159,7 +172,7 @@ const bancoDeDados = {
         {"frente": "Bônus 02: O que foi a 'Bolha da Internet' (Dot-com bubble)?", "verso": "A crise econômica dos anos 2000 causada pela supervalorização de empresas de internet.", "dica": "Muitas empresas faliram da noite pro dia."}
     ],
     "bonus3": [
-        {"frente": "Bônus 03: O que é a síndrome do Impostor?", "verso": "O sentimento de que você não é bom o suficiente e que seu sucesso é apenas sorte.", "dica": "Afeta 80% dos desenvolvedores iniciantes."},
+        {"frente": "Bônus 03: O que é a síndrome do Impostor?", "verso": "O sentimento de que você não é bom o suficiente e que seu sucesso é sorte.", "dica": "Afeta 80% dos desenvolvedores iniciantes."},
         {"frente": "Bônus 03: Qual a linguagem de programação que foi para a Lua (Apollo 11)?", "verso": "Assembly, escrito por Margaret Hamilton e sua equipe.", "dica": "O código era literalmente costurado em fios."},
         {"frente": "Bônus 03: O que é a Lei de Moore?", "verso": "A observação de que o número de transistores em um microchip dobra a cada dois anos.", "dica": "Dita o ritmo da evolução do hardware."}
     ],

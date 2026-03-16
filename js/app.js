@@ -655,14 +655,14 @@ function resetarProgresso() {
         localStorage.removeItem(userKey + 'rank');
         localStorage.removeItem(userKey + 'srs'); 
         
-        window.location.href = 'login.html'; 
+        window.location.href = '../login/login.html'; 
     }
 }
 
 function deslogar() {
     if (confirm("[ SISTEMA ]\nDeseja encerrar a sessão atual (Logout)?")) {
         localStorage.removeItem('quest_user_name');
-        window.location.href = 'login.html'; 
+        window.location.href = '../login/login.html'; 
     }
 }
 

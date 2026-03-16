@@ -104,7 +104,7 @@
                 localStorage.setItem(userKey + 'desbloqueadas', JSON.stringify(todasFases));
                 localStorage.setItem(userKey + 'bonus_unlocked', JSON.stringify(todosBonus));
 
-                setTimeout(() => { window.location.href = 'index.html'; }, 800);
+                setTimeout(() => { window.location.href = '../home/index.html'; }, 800);
                 return;
             }
 
@@ -122,7 +122,7 @@
                 btn.innerText = "Registrado! Entrando...";
                 localStorage.setItem('quest_user_name', nome);
                 
-                setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+                setTimeout(() => { window.location.href = '../home/index.html'; }, 1000);
             } 
             // ==========================================
             // 3. LOGIN COMUM DE ALUNO
@@ -134,7 +134,7 @@
                 btn.innerText = "Autenticando...";
                 localStorage.setItem('quest_user_name', user.nome);
                 
-                setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+                setTimeout(() => { window.location.href = '../home/index.html'; }, 1000);
             }
         }
 

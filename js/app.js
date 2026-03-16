@@ -690,3 +690,38 @@ document.querySelectorAll('.aula-item').forEach(item => {
         }
     });
 });
+
+// ==========================================
+// 7. ACESSIBILIDADE (ZOOM E ALTO CONTRASTE)
+// ==========================================
+
+// --- Lógica de Zoom ---
+// Carrega o zoom salvo ou define como 100%
+let currentZoom = parseInt(localStorage.getItem('quest_zoom')) || 100;
+document.documentElement.style.fontSize = currentZoom + '%';
+
+function mudarZoom(direcao) {
+    // direcao: 1 para aumentar, -1 para diminuir
+    if (direcao > 0 && currentZoom < 150) {
+        currentZoom += 10; // Aumenta 10%
+    } else if (direcao < 0 && currentZoom > 80) {
+        currentZoom -= 10; // Diminui 10%
+    }
+    
+    // Aplica no HTML (como usamos 'rem' no CSS, todo o site cresce/diminui junto!)
+    document.documentElement.style.fontSize = currentZoom + '%';
+    localStorage.setItem('quest_zoom', currentZoom);
+}
+
+// --- Lógica de Alto Contraste ---
+// Carrega a preferência salva
+let isHighContrast = localStorage.getItem('quest_high_contrast') === 'true';
+if (isHighContrast) {
+    document.body.classList.add('high-contrast-mode');
+}
+
+function toggleAltoContraste() {
+    isHighContrast = !isHighContrast;
+    document.body.classList.toggle('high-contrast-mode', isHighContrast);
+    localStorage.setItem('quest_high_contrast', isHighContrast);
+}

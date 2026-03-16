@@ -252,3 +252,17 @@
     <script src="../js/app.js"></script>
 </body>
 </html>
+    <div class="app-footer">
+        <div class="a11y-icon" title="Acessibilidade">
+            <span class="material-symbols-outlined" style="font-size: 1.2rem;">accessibility_new</span>
+        </div>
+        <div class="a11y-buttons">
+            <button class="btn-action tech-font flex-align-center" onclick="mudarZoom(-1)" title="Diminuir Texto">A-</button>
+            <button class="btn-action tech-font flex-align-center" onclick="mudarZoom(1)" title="Aumentar Texto">A+</button>
+            <button class="btn-action tech-font flex-align-center" onclick="toggleAltoContraste()" title="Alternar Alto Contraste">
+                <span class="material-symbols-outlined">contrast</span>
+            </button>
+        </div>
+    </div>
+
+    <button id="btn-voltar-topo" class="btn-action flex-align-center" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">

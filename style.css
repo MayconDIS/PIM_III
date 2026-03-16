@@ -227,7 +227,7 @@ header {
 }
 
 .dia-header {
-    display: flex; /* Na Web, ficam na mesma linha */
+    display: flex; 
     align-items: center;
     gap: 15px;
     font-size: 0.9rem; 
@@ -239,10 +239,10 @@ header {
     margin-bottom: 10px; 
 }
 
-.left-panel .dia-header:first-child { margin-top: 20px !important; }
+.left-panel .dia-header:first-child { margin-top: 18px !important; }
 
 .dia-line {
-    flex-grow: 1; /* Na Web, ocupa apenas o espaço restante ao lado do nome */
+    flex-grow: 1; 
     height: 1px; 
 }
 
@@ -382,15 +382,38 @@ header {
 .stat-box.highlight { border-color: var(--alura-green); background-color: rgba(0, 255, 136, 0.05); }
 
 /* =========================================
+   CORES DOS MÓDULOS (Identidade Visual)
+   ========================================= */
+/* Módulo 01: Verde */
+.mod-01 span.tech-font { color: var(--alura-green); }
+.mod-01 .dia-line { background: linear-gradient(90deg, var(--alura-green), transparent); }
+
+/* Módulo 02: Ciano */
+.mod-02 span.tech-font { color: var(--alura-cyan); }
+.mod-02 .dia-line { background: linear-gradient(90deg, var(--alura-cyan), transparent); }
+
+/* Módulo 03: Roxo */
+.mod-03 span.tech-font { color: var(--alura-purple); }
+.mod-03 .dia-line { background: linear-gradient(90deg, var(--alura-purple), transparent); }
+
+/* Módulo 04: Amarelo/Dourado */
+.mod-04 span.tech-font { color: #ffd700; }
+.mod-04 .dia-line { background: linear-gradient(90deg, #ffd700, transparent); }
+
+/* Módulo 05: Laranja/Vermelho (ENADE) */
+.mod-05 span.tech-font { color: #ff4500; }
+.mod-05 .dia-line { background: linear-gradient(90deg, #ff4500, transparent); }
+
+/* =========================================
    BOTÃO FLUTUANTE: VOLTAR AO TOPO (WEB)
    ========================================= */
 #btn-voltar-topo {
     position: fixed;
     bottom: 30px;
-    right: 30px;  /* Na WEB fica na DIREITA */
+    right: 30px; 
     width: 55px !important;
     height: 55px !important;
-    border-radius: 50% !important; /* Força o botão a ser SEMPRE REDONDO */
+    border-radius: 50% !important; 
     display: none; 
     justify-content: center;
     align-items: center;
@@ -439,14 +462,12 @@ header {
     #titulo-aula { font-size: 1rem; }
     .btn-jogo { font-size: 0.85rem; padding: 12px 10px; }
 
-    /* ============================================
-       CABEÇALHOS DE MÓDULOS - VERSÃO MOBILE FIX
-       ============================================ */
+    /* CABEÇALHOS DE MÓDULOS - VERSÃO MOBILE FIX */
     .dia-header {
         display: flex !important;
-        flex-wrap: wrap !important; /* Permite a linha quebrar e cair para baixo */
+        flex-wrap: wrap !important; 
         align-items: center !important;
-        gap: 5px !important; /* Distância entre o [ MOD_01 ] e o Texto */
+        gap: 5px !important; 
         line-height: 1.4 !important;
         margin-top: 35px !important;
         padding-bottom: 0 !important;
@@ -455,7 +476,7 @@ header {
     }
     
     .left-panel .dia-header:first-child {
-        margin-top: 20px !important; /* Deixa o espaçamento idêntico aos outros módulos */
+        margin-top: 18px !important; 
     }
     
     .dia-header span.tech-font {
@@ -464,19 +485,17 @@ header {
     
     .dia-line {
         display: block !important;
-        width: 100% !important; /* Faz a linha gradiente esticar e ir para a linha de baixo */
+        width: 100% !important; 
         flex-grow: 0 !important; 
         height: 2px !important; 
-        margin-top: 8px !important; /* Espaço entre o título do módulo e a linha deitada */
+        margin-top: 8px !important; 
     }
 
-    /* ============================================
-       BOTÃO AO TOPO - VERSÃO MOBILE FIX
-       ============================================ */
+    /* BOTÃO AO TOPO - VERSÃO MOBILE FIX */
     #btn-voltar-topo {
         bottom: 20px !important;
-        left: 20px !important; /* No MOBILE fica na ESQUERDA */
-        right: auto !important; /* Anula o comportamento da direita */
+        left: 20px !important; 
+        right: auto !important; 
         width: 50px !important;
         height: 50px !important;
     }

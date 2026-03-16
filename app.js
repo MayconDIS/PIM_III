@@ -1,7 +1,7 @@
 // js/app.js
 
 // ==========================================
-// 1. INICIALIZAÇÃO MULTI-USUÁRIO E BANCO DE DADOS
+// 1. INICIALIZAÇÃO E BANCO DE DADOS
 // ==========================================
 const nomeSalvo = localStorage.getItem('quest_user_name') || 'Desenvolvedor';
 
@@ -22,18 +22,17 @@ let coinsTotal = parseInt(localStorage.getItem(userKey + 'coins')) || 0;
 document.getElementById('xp-display').innerHTML = `<span class="material-symbols-outlined" style="font-size: 1.2rem;">military_tech</span> ${xpTotal} XP`;
 document.getElementById('coin-display').innerHTML = `<span class="material-symbols-outlined" style="font-size: 1.2rem;">toll</span> ${coinsTotal}`;
 
-// Garante o Cache Atualizado
 let meusDecks = JSON.parse(localStorage.getItem(userKey + 'decks'));
 if (!meusDecks || !meusDecks.fase22 || meusDecks.fase22.length < 50) {
     meusDecks = JSON.parse(JSON.stringify(bancoDeDados));
     localStorage.setItem(userKey + 'decks', JSON.stringify(meusDecks));
 }
 
-// NOVA VARIÁVEL: Banco de dados do Algoritmo ANKI (Spaced Repetition)
+// Banco de dados do Algoritmo ANKI
 let srsData = JSON.parse(localStorage.getItem(userKey + 'srs')) || {};
 
 // ==========================================
-// 2. SISTEMA DE DESBLOQUEIO E LOJA BÔNUS
+// 2. SISTEMA DE DESBLOQUEIO E BÔNUS
 // ==========================================
 const ordemFases = [];
 for (let i = 1; i <= 22; i++) { ordemFases.push('fase' + i); }
@@ -88,14 +87,11 @@ function tentarAbrirBonus(bonusId, custo, nomeAula, elementoClicado) {
         if (coinsTotal >= custo) {
             coinsTotal -= custo;
             bonusDesbloqueados.push(bonusId);
-            
             localStorage.setItem(userKey + 'coins', coinsTotal);
             localStorage.setItem(userKey + 'bonus_unlocked', JSON.stringify(bonusDesbloqueados));
-            
             document.getElementById('coin-display').innerHTML = `<span class="material-symbols-outlined" style="font-size: 1.2rem;">toll</span> ${coinsTotal}`;
             atualizarFasesVisuais();
             alert(`[ SUCESSO ]\nTransação concluída. Acesso concedido.`);
-            
             if (!fasesDesbloqueadas.includes(bonusId)) fasesDesbloqueadas.push(bonusId);
             carregarAula(bonusId, nomeAula, elementoClicado);
         } else {
@@ -105,7 +101,7 @@ function tentarAbrirBonus(bonusId, custo, nomeAula, elementoClicado) {
 }
 
 // ==========================================
-// 3. SISTEMA DE NIVELAMENTO ENADE E RANKS
+// 3. SISTEMA DE NIVELAMENTO ENADE
 // ==========================================
 const quizPerguntas = [
     { p: "1. Python: O que é um Dicionário?", r: ["Uma lista de palavras.", "Estrutura baseada em 'Chave: Valor'.", "Um laço de repetição."], certa: 1 },
@@ -125,11 +121,8 @@ let acertosNivelamento = 0;
 
 function verificarNivelamento() {
     const jaNivelou = localStorage.getItem(userKey + 'nivelado');
-    if (!jaNivelou) {
-        document.getElementById('modalNivelamento').classList.add('show');
-    } else {
-        atualizarFasesVisuais(); 
-    }
+    if (!jaNivelou) document.getElementById('modalNivelamento').classList.add('show');
+    else atualizarFasesVisuais(); 
 }
 
 function refazerDiagnostico() {
@@ -165,7 +158,6 @@ function renderizarPerguntaNivelamento() {
 function responderNivelamento(indiceResposta) {
     if (indiceResposta === quizPerguntas[questaoAtualNivelamento].certa) acertosNivelamento++;
     questaoAtualNivelamento++;
-    
     if (questaoAtualNivelamento < quizPerguntas.length) renderizarPerguntaNivelamento(); 
     else finalizarNivelamento(); 
 }
@@ -206,21 +198,51 @@ function finalizarNivelamento() {
 }
 
 // ==========================================
-// 4. MOTOR FLASHCARDS ANKI E MÚLTIPLA ESCOLHA
+// 4. MOTOR ANKI (SPACED REPETITION) E ENADE
 // ==========================================
 let deckAtual = [];
 let deckRevisao = []; 
 let indiceCarta = 0;
 let faseAtualId = ''; 
 
-function resetarBotoesJogo() {
-    document.getElementById('botoes-jogo').innerHTML = `
-        <button class="btn-jogo btn-erro tech-font flex-align-center" onclick="processarResposta('errei')">
-            <span class="material-symbols-outlined" style="margin-right:5px;">close</span> ERRO
-        </button>
-        <button class="btn-jogo btn-acerto tech-font flex-align-center" onclick="processarResposta('acertei')">
-            <span class="material-symbols-outlined" style="margin-right:5px;">check</span> SUCESSO
-        </button>
+function formatarIntervalo(dias) {
+    let d = Math.round(dias);
+    if (d < 1) return "<10m";
+    if (d === 1) return "1d";
+    if (d < 30) return d + "d";
+    if (d < 365) return Math.round(d / 30) + "m";
+    return Math.round(d / 365) + "a";
+}
+
+function gerarBotoesAnki(idCarta) {
+    let dataSrs = srsData[idCarta] || { rep: 0, interval: 0, ease: 2.5 };
+    let tAgain = "<1m", tHard = "<6m", tGood = "<10m", tEasy = "3d";
+
+    if (dataSrs.rep > 0) {
+        tHard = formatarIntervalo(Math.max(1, dataSrs.interval * 1.2));
+        tGood = formatarIntervalo(Math.max(1, dataSrs.interval * dataSrs.ease));
+        tEasy = formatarIntervalo(Math.max(1, dataSrs.interval * dataSrs.ease * 1.3));
+    }
+
+    return `
+        <div class="anki-container">
+            <button class="anki-btn" onclick="processarResposta('again')">
+                <span class="anki-time">${tAgain}</span>
+                <span class="anki-label" style="color: #ff5555;">De novo</span>
+            </button>
+            <button class="anki-btn" onclick="processarResposta('hard')">
+                <span class="anki-time">${tHard}</span>
+                <span class="anki-label" style="color: #ffaa00;">Difícil</span>
+            </button>
+            <button class="anki-btn" onclick="processarResposta('good')">
+                <span class="anki-time">${tGood}</span>
+                <span class="anki-label" style="color: #00ff88;">Bom</span>
+            </button>
+            <button class="anki-btn" onclick="processarResposta('easy')">
+                <span class="anki-time">${tEasy}</span>
+                <span class="anki-label" style="color: #00e6e6;">Fácil</span>
+            </button>
+        </div>
     `;
 }
 
@@ -233,7 +255,6 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     const rightPanel = document.getElementById('right-panel');
     const leftPanel = document.querySelector('.left-panel'); 
 
-    // Lógica para fechar a aula ao clicar na fase aberta
     if (elementoClicado.classList.contains('active-lesson')) {
         elementoClicado.classList.remove('active-lesson');
         leftPanel.classList.remove('focus-mode'); 
@@ -246,7 +267,6 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
         return; 
     }
 
-    // Prepara o layout
     document.querySelectorAll('.aula-item').forEach(el => el.classList.remove('active-lesson'));
     elementoClicado.classList.add('active-lesson');
     leftPanel.classList.add('fade-out-others');
@@ -266,23 +286,22 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     let agora = new Date().getTime();
 
     // ===============================================
-    // LÓGICA ANKI (1/2): Filtro de Cartas Devidas
+    // LÓGICA ANKI: Filtro de Cartas Devidas
+    // AGORA APLICADO PARA TODAS AS FASES (INCLUSIVE ENADE)
     // ===============================================
     deckAtual = cartasDaFase.filter(carta => {
         let infoAnki = srsData[carta.frente];
-        if (!infoAnki) return true; // É carta nova (nunca vista)
-        return infoAnki.next <= agora; // A data de revisão chegou ou já passou
+        if (!infoAnki) return true; // Nova
+        return infoAnki.next <= agora; // Devida
     });
 
-    // Se o filtro zerar as cartas (todas já foram revisadas e agendadas pro futuro)
     if (deckAtual.length === 0) {
-        // Reverte todo o efeito de layout
         elementoClicado.classList.remove('active-lesson');
         leftPanel.classList.remove('focus-mode'); 
         leftPanel.classList.remove('fade-out-others');
         document.querySelectorAll('.dia-header').forEach(el => el.classList.remove('active-header'));
         
-        alert("✅ [ SISTEMA ANKI: REVISÃO EM DIA ]\n\nVocê já estudou todo o conteúdo desta disciplina por hoje!\n\nSeu cérebro precisa de descanso para fixar a memória. Volte amanhã para novas revisões espaçadas.");
+        alert("✅ [ SISTEMA ANKI: REVISÃO EM DIA ]\n\nVocê já estudou todo o conteúdo desta disciplina por hoje!\nSeu cérebro precisa de descanso para fixar a memória. Volte amanhã para novas revisões espaçadas.");
         
         rightPanel.classList.remove('active'); 
         setTimeout(() => { rightPanel.style.display = 'none'; }, 1000); 
@@ -290,14 +309,14 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     }
 
     // ===============================================
-    // LÓGICA ANKI (2/2): Embaralhador de Cartas
+    // LÓGICA ANKI: Embaralhador de Cartas (Shuffle)
+    // AGORA O ENADE TAMBÉM É EMBARALHADO!
     // ===============================================
     for (let i = deckAtual.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deckAtual[i], deckAtual[j]] = [deckAtual[j], deckAtual[i]];
     }
 
-    // Prossegue com a UI Normal
     document.getElementById('titulo-aula').innerHTML = `Processando: <span style="color: var(--alura-cyan)">${nomeAula}</span>`;
     elementoClicado.after(rightPanel);
     rightPanel.style.display = 'block';
@@ -314,20 +333,18 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
 function mostrarCartaAtual() {
     const cardInner = document.getElementById('meuCard');
     cardInner.classList.remove('flipped'); 
-    resetarBotoesJogo(); 
 
     const carta = deckAtual[indiceCarta];
     if (!carta) return; 
 
     const frenteEl = document.getElementById('texto-frente');
     const versoEl = document.getElementById('texto-verso');
+    const isEnade = carta.opcoes;
 
-    // MODO ENADE (Múltipla Escolha)
-    if (carta.opcoes) {
+    if (isEnade) {
         frenteEl.style.textAlign = 'left';
         versoEl.style.textAlign = 'left';
         
-        // CORREÇÃO DO EVENT BUBBLING: 'event.stopPropagation()' impede o clique de virar a carta indevidamente
         let htmlOpcoes = carta.opcoes.map((op, idx) => 
             `<button class="btn-opcao" onclick="event.stopPropagation(); verificarEnade(${idx}, ${carta.correta})">${op}</button>`
         ).join('');
@@ -348,12 +365,8 @@ function mostrarCartaAtual() {
         
         document.getElementById('dica-frente').innerText = "Selecione a alternativa correta abaixo";
         document.getElementById('dica-verso').innerText = carta.dica || ""; 
-        document.getElementById('contador-cartas').innerText = `Item ${indiceCarta + 1}/${deckAtual.length}`;
-        
         document.getElementById('botoes-jogo').style.display = 'none';
-    } 
-    // MODO FLASHCARD NORMAL
-    else {
+    } else {
         frenteEl.style.fontSize = '1.5rem';
         frenteEl.style.textAlign = 'center';
         
@@ -369,23 +382,32 @@ function mostrarCartaAtual() {
 
         document.getElementById('dica-frente').innerText = "Aperte [ESPAÇO] para debugar";
         document.getElementById('dica-verso').innerText = carta.dica || ""; 
-        document.getElementById('contador-cartas').innerText = `Item ${indiceCarta + 1}/${deckAtual.length}`;
+        
+        document.getElementById('botoes-jogo').innerHTML = `
+            <button class="btn-mostrar tech-font" onclick="virarCarta()">MOSTRAR RESPOSTA</button>
+        `;
         document.getElementById('botoes-jogo').style.display = 'flex';
     }
+    document.getElementById('contador-cartas').innerText = `Item ${indiceCarta + 1}/${deckAtual.length}`;
 }
 
-// CORREÇÃO: Impede virar a carta enquanto a animação do ENADE está ocorrendo
 function virarCarta() {
     const isEnade = deckAtual[indiceCarta] && deckAtual[indiceCarta].opcoes;
 
     if (isEnade) {
-        // Se os botões (Erro/Acerto) ainda não apareceram na tela, a carta está bloqueada para giro
         const botoesVisiveis = document.getElementById('botoes-jogo').style.display === 'flex';
         if (!botoesVisiveis) return;
     }
 
     if (deckAtual.length > 0 && indiceCarta < deckAtual.length) {
-        document.getElementById('meuCard').classList.toggle('flipped');
+        const card = document.getElementById('meuCard');
+        card.classList.toggle('flipped');
+        
+        if (!isEnade && card.classList.contains('flipped')) {
+            document.getElementById('botoes-jogo').innerHTML = gerarBotoesAnki(deckAtual[indiceCarta].frente);
+        } else if (!isEnade && !card.classList.contains('flipped')) {
+            document.getElementById('botoes-jogo').innerHTML = `<button class="btn-mostrar tech-font" onclick="virarCarta()">MOSTRAR RESPOSTA</button>`;
+        }
     }
 }
 
@@ -394,18 +416,20 @@ document.addEventListener('keydown', function(e) {
     if (!isPlaying) return;
 
     const isEnade = deckAtual[indiceCarta] && deckAtual[indiceCarta].opcoes;
-    if (isEnade) return; // Desativa os atalhos de teclado no modo ENADE para evitar bugs
+    if (isEnade) return; // Desativa os atalhos de teclado no modo ENADE para focar no rato
+
+    const card = document.getElementById('meuCard');
+    const isFlipped = card.classList.contains('flipped');
 
     if (e.code === 'Space') {
         e.preventDefault();
-        const card = document.getElementById('meuCard');
-        if (!card.classList.contains('flipped') && document.getElementById('botoes-jogo').style.display !== 'none') {
-            virarCarta();
-        }
-    } else if (e.code === 'ArrowRight' || e.key === 'd') {
-        if (document.getElementById('meuCard').classList.contains('flipped')) processarResposta('acertei');
-    } else if (e.code === 'ArrowLeft' || e.key === 'a') {
-        if (document.getElementById('meuCard').classList.contains('flipped')) processarResposta('errei');
+        if (!isFlipped) virarCarta();
+        else processarResposta('good'); 
+    } else if (isFlipped) {
+        if (e.key === '1') processarResposta('again');
+        if (e.key === '2') processarResposta('hard');
+        if (e.key === '3') processarResposta('good');
+        if (e.key === '4') processarResposta('easy');
     }
 });
 
@@ -421,6 +445,7 @@ function soltarEstrelas(botaoElement) {
     }
 }
 
+// LÓGICA DO ENADE MELHORADA COM ANKI
 function verificarEnade(escolhida, correta) {
     const botoes = document.querySelectorAll('.btn-opcao');
     botoes.forEach(b => b.disabled = true);
@@ -429,10 +454,10 @@ function verificarEnade(escolhida, correta) {
         botoes[escolhida].classList.add('opcao-correta');
         soltarEstrelas(botoes[escolhida]);
         
-        // Mantive os 3000ms. Agora funciona perfeitamente por conta do event.stopPropagation()
         setTimeout(() => {
             document.getElementById('meuCard').classList.add('flipped');
-            document.getElementById('botoes-jogo').innerHTML = `<button class="btn-jogo btn-acerto tech-font flex-align-center" style="width:100%" onclick="processarResposta('acertei')">CONTINUAR</button>`;
+            // Se ACERTOU, mostra os 4 botões Anki para você avaliar se foi "chute" ou certeza
+            document.getElementById('botoes-jogo').innerHTML = gerarBotoesAnki(deckAtual[indiceCarta].frente);
             document.getElementById('botoes-jogo').style.display = 'flex';
         }, 3000);
 
@@ -442,7 +467,15 @@ function verificarEnade(escolhida, correta) {
         
         setTimeout(() => {
             document.getElementById('meuCard').classList.add('flipped');
-            document.getElementById('botoes-jogo').innerHTML = `<button class="btn-jogo btn-erro tech-font flex-align-center" style="width:100%" onclick="processarResposta('errei')">CONTINUAR (ERROU)</button>`;
+            // Se ERROU, mostra apenas o botão de erro, obrigando a rever a carta hoje
+            document.getElementById('botoes-jogo').innerHTML = `
+                <div class="anki-container">
+                    <button class="anki-btn" style="border-color: #ff5555;" onclick="processarResposta('again')">
+                        <span class="anki-time"><1m</span>
+                        <span class="anki-label" style="color: #ff5555;">Errou (Repetir Hoje)</span>
+                    </button>
+                </div>
+            `;
             document.getElementById('botoes-jogo').style.display = 'flex';
         }, 3000);
     }
@@ -452,32 +485,33 @@ function processarResposta(resultado) {
     if (deckAtual.length === 0 || indiceCarta >= deckAtual.length) return;
     
     let cartaAtual = deckAtual[indiceCarta];
-    let idCarta = cartaAtual.frente; // A frente atua como ID único para gravar no localStorage
-
-    // ===============================================
-    // LÓGICA SM-2 ANKI: Curva de Esquecimento
-    // ===============================================
+    let idCarta = cartaAtual.frente; 
     let dataSrs = srsData[idCarta] || { rep: 0, interval: 0, ease: 2.5, next: 0 };
     let agora = new Date().getTime();
 
-    if (resultado === 'acertei') {
-        // Aumenta o intervalo (1 dia -> 6 dias -> multiplicador de facilidade)
-        if (dataSrs.rep === 0) dataSrs.interval = 1;
-        else if (dataSrs.rep === 1) dataSrs.interval = 6;
-        else dataSrs.interval = Math.round(dataSrs.interval * dataSrs.ease);
-        
-        dataSrs.rep++;
-    } else if (resultado === 'errei') {
-        // A carta vai pro fim da fila na sessão atual para rever
+    // ===============================================
+    // MATEMÁTICA DO ALGORITMO SM-2 (ANKI)
+    // ===============================================
+    if (resultado === 'again' || resultado === 'errei') {
         deckRevisao.push(cartaAtual); 
-        
-        // Zera as repetições e agrava a curva
         dataSrs.rep = 0;
         dataSrs.interval = 1;
-        dataSrs.ease = Math.max(1.3, dataSrs.ease - 0.2);
+        dataSrs.ease = Math.max(1.3, dataSrs.ease - 0.2); 
+    } else if (resultado === 'hard') {
+        dataSrs.interval = Math.max(1, Math.round(dataSrs.interval * 1.2));
+        dataSrs.ease = Math.max(1.3, dataSrs.ease - 0.15);
+        dataSrs.rep++;
+    } else if (resultado === 'good' || resultado === 'acertei') {
+        if (dataSrs.rep === 0) dataSrs.interval = 1;
+        else dataSrs.interval = Math.max(1, Math.round(dataSrs.interval * dataSrs.ease));
+        dataSrs.rep++;
+    } else if (resultado === 'easy') {
+        if (dataSrs.rep === 0) dataSrs.interval = 3;
+        else dataSrs.interval = Math.max(1, Math.round(dataSrs.interval * dataSrs.ease * 1.3));
+        dataSrs.ease += 0.15; 
+        dataSrs.rep++;
     }
 
-    // Calcula quando você verá a carta novamente (dias em milissegundos)
     dataSrs.next = agora + (dataSrs.interval * 86400000); 
     srsData[idCarta] = dataSrs;
     localStorage.setItem(userKey + 'srs', JSON.stringify(srsData));
@@ -492,7 +526,7 @@ function processarResposta(resultado) {
                 deckRevisao = []; 
                 indiceCarta = 0;
                 mostrarCartaAtual();
-                document.getElementById('dica-frente').innerText = "🔄 Reprocessando os erros...";
+                document.getElementById('dica-frente').innerText = "🔄 Reprocessando os erros de hoje...";
             } else {
                 finalizarDeck();
             }
@@ -619,7 +653,7 @@ function resetarProgresso() {
         localStorage.removeItem(userKey + 'bonus_unlocked');
         localStorage.removeItem(userKey + 'decks');
         localStorage.removeItem(userKey + 'rank');
-        localStorage.removeItem(userKey + 'srs'); // Apaga o log do Anki
+        localStorage.removeItem(userKey + 'srs'); 
         
         window.location.href = 'login.html'; 
     }
@@ -635,16 +669,13 @@ function deslogar() {
 window.onload = verificarNivelamento;
 
 // ==========================================
-// 6. EFEITO SCROLL: BOTÃO VOLTAR AO TOPO E OCULTAMENTO MOBILE
+// 6. EFEITO SCROLL: BOTÃO VOLTAR AO TOPO
 // ==========================================
 window.addEventListener('scroll', function() {
     const btnTopo = document.getElementById('btn-voltar-topo');
     const rightPanel = document.getElementById('right-panel');
-    
-    // Verifica se está num ecrã de telemóvel E se está a jogar uma fase
     const isMobilePlaying = window.innerWidth <= 600 && rightPanel.classList.contains('active');
 
-    // Se desceu o ecrã E NÃO está a jogar no telemóvel, exibe o botão
     if (window.scrollY > 300 && !isMobilePlaying) {
         btnTopo.style.display = 'flex';
     } else {
@@ -652,7 +683,6 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Esconde o botão de voltar ao topo instantaneamente ao clicar numa fase no telemóvel
 document.querySelectorAll('.aula-item').forEach(item => {
     item.addEventListener('click', () => {
         if (window.innerWidth <= 600) {

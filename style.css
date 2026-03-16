@@ -227,26 +227,31 @@ header {
     gap: 10px; 
 }
 
-.dia-header { 
-    font-size: 0.9rem; 
-    font-weight: bold; 
-    color: #fff; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-    margin-top: 35px; 
-    margin-bottom: 10px; 
-    display: flex; 
-    align-items: center; 
-    gap: 15px; 
-}
-
-.left-panel .dia-header:first-child { margin-top: 0; }
-
-.dia-line { 
-    flex-grow: 1; 
-    height: 1px; 
-    background: linear-gradient(90deg, var(--alura-cyan), transparent); 
-}
+.dia-header {
+        display: block !important; /* Muda de flex para bloco para a linha cair */
+        line-height: 1.4 !important;
+        margin-top: 35px !important; /* Espaçamento padrão entre os módulos */
+        padding-bottom: 0 !important;
+        border-bottom: none !important;
+        font-size: 0.95rem !important;
+    }
+    
+    /* CORREÇÃO DO ESPAÇO GIGANTE: Aplica-se apenas ao primeiro módulo (MOD_01) */
+    .left-panel .dia-header:first-child {
+        margin-top: 10px !important; 
+    }
+    
+    .dia-header span.tech-font {
+        display: inline !important; /* Garante que o [ MOD_01 ] e o Título ficam na mesma linha */
+        margin-right: 5px;
+    }
+    
+    .dia-line {
+        display: block !important; /* Força a linha a ir para baixo do texto */
+        width: 100% !important; /* Faz a linha esticar de ponta a ponta */
+        height: 1.5px !important; /* Altura da linha (um pouco mais visível no telemóvel) */
+        margin-top: 10px !important; /* O espaço entre o texto e a linha gradiente */
+    }
 
 .aula-item {
     background-color: var(--alura-card); 

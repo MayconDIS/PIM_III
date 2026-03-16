@@ -1,7 +1,7 @@
 // js/app.js
 
 // ==========================================
-// 1. INICIALIZAÇÃO MULTI-USUÁRIO (SAVE SLOTS)
+// 1. INICIALIZAÇÃO MULTI-USUÁRIO E AUTO-CACHE
 // ==========================================
 const nomeSalvo = localStorage.getItem('quest_user_name') || 'Desenvolvedor';
 
@@ -26,7 +26,12 @@ let coinsTotal = parseInt(localStorage.getItem(userKey + 'coins')) || 0;
 document.getElementById('xp-display').innerHTML = `<span class="material-symbols-outlined" style="font-size: 1.2rem;">military_tech</span> ${xpTotal} XP`;
 document.getElementById('coin-display').innerHTML = `<span class="material-symbols-outlined" style="font-size: 1.2rem;">toll</span> ${coinsTotal}`;
 
-let meusDecks = JSON.parse(localStorage.getItem(userKey + 'decks')) || JSON.parse(JSON.stringify(bancoDeDados));
+// 🚨 MÁGICA DO CACHE: Se o banco antigo for menor que o novo, ele força a atualização!
+let meusDecks = JSON.parse(localStorage.getItem(userKey + 'decks'));
+if (!meusDecks || !meusDecks.fase22 || meusDecks.fase22.length < 50) {
+    meusDecks = JSON.parse(JSON.stringify(bancoDeDados));
+    localStorage.setItem(userKey + 'decks', JSON.stringify(meusDecks));
+}
 
 // ==========================================
 // 2. SISTEMA DE DESBLOQUEIO E LOJA BÔNUS
@@ -262,6 +267,33 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
         setTimeout(() => { rightPanel.style.display = 'none'; }, 1000); 
         return; 
     }
+
+    document.querySelectorAll('.aula-item').forEach(el => el.classList.remove('active-lesson'));
+    elementoClicado.classList.add('active-lesson');
+    
+    leftPanel.classList.add('fade-out-others');
+    document.querySelectorAll('.dia-header').forEach(el => el.classList.remove('active-header'));
+    
+    let prev = elementoClicado.previousElementSibling;
+    while(prev) {
+        if(prev.classList.contains('dia-header')) {
+            prev.classList.add('active-header');
+            break;
+        }
+        prev = prev.previousElementSibling;
+    }
+
+    document.getElementById('titulo-aula').innerHTML = `Processando: <span style="color: var(--alura-cyan)">${nomeAula}</span>`;
+    elementoClicado.after(rightPanel);
+    rightPanel.style.display = 'block';
+    
+    setTimeout(() => { rightPanel.classList.add('active'); }, 50);
+
+    setTimeout(() => {
+        if (elementoClicado.classList.contains('active-lesson')) {
+            leftPanel.classList.add('focus-mode');
+        }
+    }, 1000);
 
     document.getElementById('botoes-jogo').style.display = 'flex';
     document.getElementById('botao-proxima').style.display = 'none';

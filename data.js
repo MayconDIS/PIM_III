@@ -1283,4 +1283,4 @@ const bancoDeDados = {
         { "frente": "Bônus 04: O que é um Acordo de Confidencialidade (NDA) para startups?", "verso": "Um contrato que protege o sigilo da ideia, código ou plano de negócio. NOTA: Investidores não assinam NDAs para escutar a sua ideia inicial.", "dica": "As ideias não valem nada, a execução vale tudo." },
         { "frente": "Bônus 04: O que significa 'Escalabilidade' num modelo de negócio?", "verso": "A capacidade da empresa de multiplicar as suas receitas de forma exponencial, enquanto os seus custos operacionais crescem de forma muito lenta ou quase zero.", "dica": "O Santo Graal de qualquer software." }
     ]
-}
+};

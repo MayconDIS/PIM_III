@@ -655,14 +655,14 @@ function resetarProgresso() {
         localStorage.removeItem(userKey + 'rank');
         localStorage.removeItem(userKey + 'srs'); 
         
-        window.location.href = 'login.html'; 
+        window.location.href = '../login/login.html'; 
     }
 }
 
 function deslogar() {
     if (confirm("[ SISTEMA ]\nDeseja encerrar a sessão atual (Logout)?")) {
         localStorage.removeItem('quest_user_name');
-        window.location.href = 'login.html'; 
+        window.location.href = '../login/login.html'; 
     }
 }
 
@@ -690,3 +690,50 @@ document.querySelectorAll('.aula-item').forEach(item => {
         }
     });
 });
+
+// ==========================================
+// 7. ACESSIBILIDADE (ZOOM E ALTO CONTRASTE)
+// ==========================================
+
+// --- Lógica de Zoom ---
+// Carrega o zoom salvo ou define como 100%
+let currentZoom = parseInt(localStorage.getItem('quest_zoom')) || 100;
+document.documentElement.style.fontSize = currentZoom + '%';
+
+function mudarZoom(direcao) {
+    // direcao: 1 para aumentar, -1 para diminuir
+    if (direcao > 0 && currentZoom < 150) {
+        currentZoom += 10; // Aumenta 10%
+    } else if (direcao < 0 && currentZoom > 80) {
+        currentZoom -= 10; // Diminui 10%
+    }
+    
+    // Aplica no HTML (como usamos 'rem' no CSS, todo o site cresce/diminui junto!)
+    document.documentElement.style.fontSize = currentZoom + '%';
+    localStorage.setItem('quest_zoom', currentZoom);
+}
+
+// --- Lógica de Alto Contraste ---
+// Carrega a preferência salva
+let isHighContrast = localStorage.getItem('quest_high_contrast') === 'true';
+if (isHighContrast) {
+    document.body.classList.add('high-contrast-mode');
+}
+
+function toggleAltoContraste() {
+    isHighContrast = !isHighContrast;
+    document.body.classList.toggle('high-contrast-mode', isHighContrast);
+    localStorage.setItem('quest_high_contrast', isHighContrast);
+}
+
+// --- Lógica de Abrir/Fechar Menu de Acessibilidade ---
+function toggleA11yMenu() {
+    const widget = document.getElementById('a11y-widget');
+    widget.classList.toggle('open');
+}
+
+// --- Lógica para Links em Desenvolvimento ---
+function emDesenvolvimento(event) {
+    event.preventDefault(); // Impede que o ecrã salte para o topo ao clicar no link vazio
+    alert("[ SISTEMA ]\n\nMódulo em desenvolvimento.\nEsta funcionalidade será liberada nas próximas atualizações!");
+}

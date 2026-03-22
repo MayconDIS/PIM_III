@@ -28,7 +28,7 @@ body {
 p {
     text-align: justify;
     line-height: 1.5;
-    margin-bottom: 0;
+    margin-bottom: 0.5cm;
 }
 
 .paragrafo {
@@ -93,9 +93,36 @@ th, td {
     padding: 4px 8px;
 }
 
-/* --- Tabela do Sumário (SEM GRADES) --- */
-.sumario-table { border: none; }
-.sumario-table th, .sumario-table td { border: none; padding: 4px 0; }
+/* --- SUMÁRIO ABNT COM LINHAS PONTILHADAS --- */
+.sumario-container {
+    width: 100%;
+    margin-top: 1cm;
+}
+
+.sumario-item {
+    display: flex;
+    align-items: baseline; /* Alinha o texto e os pontos perfeitamente pela base */
+    margin-bottom: 0.2cm;
+    font-size: 12pt;
+}
+
+.sumario-titulo {
+    white-space: nowrap; /* Evita que o título quebre no meio dos pontos */
+}
+
+/* Recuos do Sumário conforme hierarquia */
+.sumario-recuo-1 { padding-left: 0.7cm; }
+.sumario-recuo-2 { padding-left: 1.4cm; }
+
+.sumario-pontos {
+    flex-grow: 1; /* Faz os pontos ocuparem todo o espaço vazio */
+    border-bottom: 2px dotted #000;
+    margin: 0 5px;
+}
+
+.sumario-pagina {
+    white-space: nowrap;
+}
 
 /* --- Imagens e Diagramas ABNT --- */
 .diagrama-container {

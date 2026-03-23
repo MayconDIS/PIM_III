@@ -32,6 +32,26 @@ body {
 }
 
 /* =========================================
+   ANIMAÇÕES DE ALTA FIDELIDADE
+   ========================================= */
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseNeon {
+    0% { box-shadow: 0 0 5px rgba(0, 230, 230, 0.1); }
+    50% { box-shadow: 0 0 15px rgba(0, 230, 230, 0.4); }
+    100% { box-shadow: 0 0 5px rgba(0, 230, 230, 0.1); }
+}
+
+@keyframes floatAvatar {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+}
+
+/* =========================================
    ALINHAMENTO E ÍCONES (Google Icons)
    ========================================= */
 .material-symbols-outlined { 
@@ -66,7 +86,6 @@ header {
     z-index: 100;
 }
 
-/* Esconde a acessibilidade do menu no Desktop (pois já temos a bolinha flutuante) */
 .mobile-a11y {
     display: none !important;
 }
@@ -134,7 +153,10 @@ header {
     overflow: hidden; 
 }
 
-.dropdown-content.show { display: block; }
+.dropdown-content.show { 
+    display: block; 
+    animation: fadeSlideUp 0.3s ease forwards;
+}
 
 .dropdown-header { 
     padding: 15px; 
@@ -153,6 +175,7 @@ header {
     justify-content: center; 
     align-items: center; 
     color: white;
+    animation: floatAvatar 3s ease-in-out infinite;
 }
 
 .dropdown-item { 
@@ -199,6 +222,8 @@ header {
     justify-content: space-between; 
     align-items: center; 
     margin: 0 auto 30px auto; 
+    opacity: 0;
+    animation: fadeSlideUp 0.6s ease forwards;
 }
 
 .welcome-text h1 { 
@@ -220,6 +245,7 @@ header {
     border-radius: 6px; 
     font-size: 0.85rem; 
     font-weight: bold; 
+    animation: pulseNeon 2s infinite;
 }
 
 /* =========================================
@@ -242,6 +268,8 @@ header {
     letter-spacing: 1px; 
     margin-top: 35px; 
     margin-bottom: 10px; 
+    opacity: 0;
+    animation: fadeSlideUp 0.6s ease forwards;
 }
 
 .left-panel .dia-header:first-child { margin-top: 18px !important; }
@@ -262,7 +290,13 @@ header {
     gap: 15px;
     cursor: pointer; 
     transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeSlideUp 0.5s ease forwards;
 }
+
+/* Escalonamento da animação para as fases surgirem em cascata */
+.aula-item:nth-child(odd) { animation-delay: 0.1s; }
+.aula-item:nth-child(even) { animation-delay: 0.2s; }
 
 .aula-item:hover:not(.aula-locked-item) { 
     border-color: #30363d; 
@@ -282,12 +316,22 @@ header {
 .icon-status { color: #8b92a5; min-width: 25px; text-align: center; }
 .aula-title { font-weight: 500; color: #fff; font-size: 1.05rem; }
 
-.dia-header, .aula-item { transition: opacity 0.7s ease-in-out !important; }
-.left-panel.fade-out-others > .dia-header:not(.active-header), 
-.left-panel.fade-out-others > .aula-item:not(.active-lesson) { opacity: 0 !important; pointer-events: none !important; }
-.left-panel.focus-mode > .dia-header:not(.active-header), 
-.left-panel.focus-mode > .aula-item:not(.active-lesson) { display: none !important; }
-.left-panel.focus-mode > .dia-header.active-header { margin-top: 0 !important; }
+.dia-header, .aula-item { 
+    transition: opacity 0.5s ease-in-out !important; 
+}
+
+/* A MÁGICA AQUI: O til (~) seleciona APENAS os elementos que vêm DEPOIS da aula ativa */
+.left-panel.fade-out-others > .active-lesson ~ .dia-header, 
+.left-panel.fade-out-others > .active-lesson ~ .aula-item { 
+    opacity: 0 !important; 
+    pointer-events: none !important; 
+}
+
+/* Quando entra no modo foco (após 1 segundo), retira os de baixo do fluxo da tela */
+.left-panel.focus-mode > .active-lesson ~ .dia-header, 
+.left-panel.focus-mode > .active-lesson ~ .aula-item { 
+    display: none !important; 
+}
 
 /* =========================================
    PAINEL JOGO (RIGHT PANEL) & FLASHCARDS
@@ -364,6 +408,7 @@ header {
 .opcao-correta { border-color: var(--alura-green) !important; background-color: rgba(0, 255, 136, 0.1) !important; color: #fff !important; }
 .opcao-errada { border-color: #ff5555 !important; background-color: rgba(255, 85, 85, 0.1) !important; color: #fff !important; }
 
+/* Animação restaurada para o ganho de estrelas/XP */
 .star-anim { position: absolute; bottom: 0; font-size: 1.5rem; animation: flyUp 1s ease-out forwards; pointer-events: none; }
 @keyframes flyUp { 0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 1; } 100% { transform: translateY(-80px) scale(1.5) rotate(180deg); opacity: 0; } }
 
@@ -371,11 +416,12 @@ header {
    MODAIS E POP-UPS
    ========================================= */
 .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(3px); }
-.modal-overlay.show { display: flex; }
+.modal-overlay.show { display: flex; animation: fadeSlideUp 0.3s ease forwards; }
 .modal-content { background: var(--alura-card); width: 100%; max-width: 500px; border-radius: 12px; border: 1px solid #30363d; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
 .modal-header { padding: 20px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
 .modal-header h2 { color: #fff; font-size: 1.3rem; }
-.btn-close { background: none; border: none; color: #8b92a5; font-size: 1.5rem; cursor: pointer; }
+.btn-close { background: none; border: none; color: #8b92a5; font-size: 1.5rem; cursor: pointer; transition: color 0.2s; }
+.btn-close:hover { color: #ff5555; }
 .modal-body { padding: 30px; }
 .input-group { margin-bottom: 15px; }
 .input-group label { display: block; color: #8b92a5; margin-bottom: 5px; font-size: 0.9rem; }
@@ -401,14 +447,31 @@ header {
 .mod-05 .dia-line { background: linear-gradient(90deg, #ff4500, transparent); }
 
 /* =========================================
-   BOTÃO FLUTUANTE: VOLTAR AO TOPO (WEB)
+   BOTÃO FLUTUANTE E ACESSIBILIDADE
    ========================================= */
+
+/* 1. Animação de flutuação e brilho contínuo */
+@keyframes floatButton {
+    0% { 
+        transform: translateY(0); 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); 
+    }
+    50% { 
+        transform: translateY(-8px); 
+        box-shadow: 0 15px 25px rgba(0, 230, 230, 0.3); 
+    }
+    100% { 
+        transform: translateY(0); 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); 
+    }
+}
+
 #btn-voltar-topo {
     position: fixed !important;
-    bottom: 30px !important; /* <--- ALINHADO COM ACESSIBILIDADE */
+    bottom: 30px !important; 
     right: 30px !important;  
     width: 55px !important;
-    height: 55px !important; /* <--- ALINHADO COM ACESSIBILIDADE */
+    height: 55px !important; 
     border-radius: 50% !important; 
     display: none; 
     justify-content: center;
@@ -421,20 +484,28 @@ header {
     background-color: var(--alura-card); 
     color: var(--alura-cyan); 
     border: 1px solid var(--alura-cyan);
+    
+    /* Adicionada a animação e a transição suave */
+    animation: floatButton 3s ease-in-out infinite;
+    transition: all 0.2s ease;
 }
 
 #btn-voltar-topo:hover {
     opacity: 1;
-    transform: translateY(-5px); 
-    box-shadow: 0 8px 25px rgba(0, 230, 230, 0.4);
+    animation: none; /* Pausa a animação ao passar o mouse */
+    transform: translateY(-5px) scale(1.1); /* Dá um ligeiro zoom */
+    box-shadow: 0 8px 25px rgba(0, 230, 230, 0.6); /* Brilho neon mais forte */
 }
 
-/* =========================================
-   ACESSIBILIDADE (WIDGET RETRÁTIL)
-   ========================================= */
+/* Efeito de clique físico (afundar) */
+#btn-voltar-topo:active {
+    transform: translateY(2px) scale(0.95); 
+    box-shadow: 0 2px 10px rgba(0, 230, 230, 0.4);
+}
+
 .a11y-widget {
     position: fixed !important;
-    bottom: 30px !important; /* Mesma altura do botão voltar ao topo */
+    bottom: 30px !important;
     left: 30px !important;
     z-index: 998 !important;
     display: flex !important;
@@ -443,7 +514,6 @@ header {
     gap: 10px !important;
 }
 
-/* O Botão Redondo Principal */
 .a11y-toggle {
     width: 55px !important;
     height: 55px !important;
@@ -467,7 +537,6 @@ header {
     box-shadow: 0 8px 25px rgba(0, 230, 230, 0.4);
 }
 
-/* O Menu Oculto que expande para a direita */
 .a11y-options {
     display: flex;
     align-items: center;
@@ -476,17 +545,14 @@ header {
     backdrop-filter: blur(10px);
     border-radius: 30px;
     overflow: hidden;
-    
-    /* Estado Fechado */
     max-width: 0;
     opacity: 0;
     padding: 0;
     border: 1px solid transparent;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    height: 45px; /* Ligeiramente mais baixo que o botão redondo para dar estilo */
+    height: 45px; 
 }
 
-/* Estado Aberto (Quando a classe .open é adicionada via JS) */
 .a11y-widget.open .a11y-options {
     max-width: 250px;
     opacity: 1;
@@ -495,7 +561,6 @@ header {
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-/* Botões internos do menu */
 .a11y-options .btn-action {
     padding: 4px 8px !important;
     font-size: 0.9rem !important;
@@ -511,10 +576,6 @@ header {
     background-color: rgba(0, 230, 230, 0.1) !important;
     color: var(--alura-cyan) !important;
     border-color: var(--alura-cyan) !important;
-}
-
-.a11y-options .btn-action .material-symbols-outlined {
-    font-size: 1.1rem !important;
 }
 
 /* =========================================
@@ -623,7 +684,6 @@ body.high-contrast-mode .xp-badge {
 .main-footer {
     background-color: #0b0c10;
     border-top: 1px solid #30363d;
-    /* Reduzimos o espaço inferior de 100px para 40px para remover o buraco vazio */
     padding: 60px 40px 40px 40px; 
     margin-top: 60px;
     position: relative;
@@ -633,7 +693,6 @@ body.high-contrast-mode .xp-badge {
 .footer-content {
     max-width: 1100px;
     margin: 0 auto;
-    /* As regras abaixo forçam as 4 colunas a ficarem lado a lado (Horizontal) */
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
@@ -708,7 +767,6 @@ body.high-contrast-mode .xp-badge {
     display: inline-block;
 }
 
-/* Efeito super elegante de empurrar o link ligeiramente para a direita no hover */
 .footer-links a:hover {
     color: var(--alura-cyan);
     padding-left: 8px; 
@@ -737,9 +795,9 @@ body.high-contrast-mode .xp-badge {
 }
 
 /* =========================================
-   RESPONSIVIDADE (CELULARES E TABLETS)
+   RESPONSIVIDADE E LINHAS PONTILHADAS MOBILE
    ========================================= */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     header {
         padding: 15px 15px;
         flex-direction: row; 
@@ -757,7 +815,31 @@ body.high-contrast-mode .xp-badge {
     .welcome-text h1 { font-size: 1.4rem; }
     .xp-wrapper { width: 100%; justify-content: center; margin-top: 15px; border-top: 1px solid #30363d; padding-top: 15px; }
 
-    .aula-item { flex-wrap: wrap; padding: 15px; align-items: center; }
+    /* ESTILIZAÇÃO GARANTIDA DAS FASES NO MOBILE */
+    .aula-item { 
+        flex-wrap: wrap !important; 
+        padding: 15px !important; 
+        align-items: center !important; 
+        position: relative !important;
+        margin-bottom: 30px !important; /* Espaço forçado para a linha pontilhada respirar */
+    }
+    
+    /* A MÁGICA DA LINHA PONTILHADA RESTAURADA E REFORÇADA */
+    .aula-item::after {
+        content: '' !important;
+        position: absolute !important;
+        bottom: -15px !important;
+        left: 20px !important; 
+        right: 20px !important;
+        border-bottom: 3px dotted #8b92a5 !important; /* 3px para garantir visibilidade */
+        opacity: 0.8 !important;
+    }
+    
+    /* Remove a linha da última fase para não sobrar espaço morto */
+    .aula-item:last-of-type::after {
+        display: none !important;
+    }
+
     .aula-title { font-size: 0.95rem; flex: 1; line-height: 1.4; }
     .aula-item > div { width: 100%; justify-content: flex-end; margin-left: 0 !important; margin-top: 8px; }
 
@@ -793,7 +875,6 @@ body.high-contrast-mode .xp-badge {
     .anki-label { font-size: 0.8rem; }
     .anki-time { font-size: 0.75rem; }
 
-    /* BOTOES FLUTUANTES NO MOBILE */
     #btn-voltar-topo {
         bottom: 20px !important;
         left: 20px !important; 
@@ -811,30 +892,10 @@ body.high-contrast-mode .xp-badge {
         padding: 0 12px !important;
     }
 
-    /* =======================================
-       AJUSTES DE ACESSIBILIDADE NO MOBILE 
-       ======================================= */
-    /* 1. Faz a opção aparecer dentro do menu hambúrguer */
-    .mobile-a11y {
-        display: flex !important;
-    }
+    .mobile-a11y { display: flex !important; }
+    .a11y-widget { display: none !important; }
 
-    /* 2. Esconde completamente a bolinha flutuante no ecrã principal */
-    .a11y-widget {
-        display: none !important;
-    }
-
-    /* Ajustes do Rodapé no Mobile */
-    .main-footer {
-        padding: 40px 20px 90px 20px; /* Reduzido de 120px para 90px */
-    }
-    .footer-content {
-        flex-direction: column !important; 
-        gap: 30px;
-    }
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-        justify-content: center;
-    }
+    .main-footer { padding: 40px 20px 90px 20px; }
+    .footer-content { flex-direction: column !important; gap: 30px; }
+    .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
 }

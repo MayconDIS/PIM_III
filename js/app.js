@@ -255,10 +255,14 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     const rightPanel = document.getElementById('right-panel');
     const leftPanel = document.querySelector('.left-panel'); 
 
+    // Lógica para FECHAR a fase se já estiver aberta
     if (elementoClicado.classList.contains('active-lesson')) {
         elementoClicado.classList.remove('active-lesson');
         leftPanel.classList.remove('focus-mode'); 
-        elementoClicado.scrollIntoView({ block: 'center' });
+        
+        // Retorna o scroll um pouco para cima para visualizar o menu
+        const y = elementoClicado.getBoundingClientRect().top + window.pageYOffset - 120;
+        window.scrollTo({ top: y, behavior: 'smooth' });
 
         setTimeout(() => { leftPanel.classList.remove('fade-out-others'); }, 50);
         document.querySelectorAll('.dia-header').forEach(el => el.classList.remove('active-header'));
@@ -267,6 +271,7 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
         return; 
     }
 
+    // Lógica para ABRIR a fase
     document.querySelectorAll('.aula-item').forEach(el => el.classList.remove('active-lesson'));
     elementoClicado.classList.add('active-lesson');
     leftPanel.classList.add('fade-out-others');
@@ -285,10 +290,7 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     let cartasDaFase = [...(meusDecks[faseId] || [])]; 
     let agora = new Date().getTime();
 
-    // ===============================================
-    // LÓGICA ANKI: Filtro de Cartas Devidas
-    // AGORA APLICADO PARA TODAS AS FASES (INCLUSIVE ENADE)
-    // ===============================================
+    // Filtro Anki
     deckAtual = cartasDaFase.filter(carta => {
         let infoAnki = srsData[carta.frente];
         if (!infoAnki) return true; // Nova
@@ -308,10 +310,7 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
         return;
     }
 
-    // ===============================================
-    // LÓGICA ANKI: Embaralhador de Cartas (Shuffle)
-    // AGORA O ENADE TAMBÉM É EMBARALHADO!
-    // ===============================================
+    // Shuffle (Embaralhar)
     for (let i = deckAtual.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deckAtual[i], deckAtual[j]] = [deckAtual[j], deckAtual[i]];
@@ -322,7 +321,26 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     rightPanel.style.display = 'block';
     
     setTimeout(() => { rightPanel.classList.add('active'); }, 50);
-    setTimeout(() => { if (elementoClicado.classList.contains('active-lesson')) leftPanel.classList.add('focus-mode'); }, 1000);
+    
+    // Animações e SCROLL AUTOMÁTICO PARA ENQUADRAR O FLASHCARD
+    setTimeout(() => { 
+        if (elementoClicado.classList.contains('active-lesson')) {
+            leftPanel.classList.add('focus-mode');
+            
+            // Lógica do Scroll Suave para a fase ativa
+            setTimeout(() => {
+                const headerFixHeight = 80; // Altura do cabeçalho fixo superior
+                const elementTop = elementoClicado.getBoundingClientRect().top;
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                const targetPosition = scrollY + elementTop - headerFixHeight - 10;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: "smooth"
+                });
+            }, 100); 
+        }
+    }, 700); // 700ms sincronizado com a animação CSS
 
     deckRevisao = []; 
     indiceCarta = 0;
@@ -416,7 +434,7 @@ document.addEventListener('keydown', function(e) {
     if (!isPlaying) return;
 
     const isEnade = deckAtual[indiceCarta] && deckAtual[indiceCarta].opcoes;
-    if (isEnade) return; // Desativa os atalhos de teclado no modo ENADE para focar no rato
+    if (isEnade) return; 
 
     const card = document.getElementById('meuCard');
     const isFlipped = card.classList.contains('flipped');
@@ -445,7 +463,6 @@ function soltarEstrelas(botaoElement) {
     }
 }
 
-// LÓGICA DO ENADE MELHORADA COM ANKI
 function verificarEnade(escolhida, correta) {
     const botoes = document.querySelectorAll('.btn-opcao');
     botoes.forEach(b => b.disabled = true);
@@ -456,7 +473,6 @@ function verificarEnade(escolhida, correta) {
         
         setTimeout(() => {
             document.getElementById('meuCard').classList.add('flipped');
-            // Se ACERTOU, mostra os 4 botões Anki para você avaliar se foi "chute" ou certeza
             document.getElementById('botoes-jogo').innerHTML = gerarBotoesAnki(deckAtual[indiceCarta].frente);
             document.getElementById('botoes-jogo').style.display = 'flex';
         }, 3000);
@@ -467,7 +483,6 @@ function verificarEnade(escolhida, correta) {
         
         setTimeout(() => {
             document.getElementById('meuCard').classList.add('flipped');
-            // Se ERROU, mostra apenas o botão de erro, obrigando a rever a carta hoje
             document.getElementById('botoes-jogo').innerHTML = `
                 <div class="anki-container">
                     <button class="anki-btn" style="border-color: #ff5555;" onclick="processarResposta('again')">
@@ -489,9 +504,6 @@ function processarResposta(resultado) {
     let dataSrs = srsData[idCarta] || { rep: 0, interval: 0, ease: 2.5, next: 0 };
     let agora = new Date().getTime();
 
-    // ===============================================
-    // MATEMÁTICA DO ALGORITMO SM-2 (ANKI)
-    // ===============================================
     if (resultado === 'again' || resultado === 'errei') {
         deckRevisao.push(cartaAtual); 
         dataSrs.rep = 0;
@@ -587,7 +599,14 @@ function irParaProximaAula() {
         alert(`[ BÔNUS ]\nConhecimento extra rendeu +${xpGanho} XP e +${coinsGanho} Coins!`);
     }
 
-    document.getElementById('menu-' + faseAtualId).click(); 
+    // Ao invés de clicar (o que fecharia a aba), fazemos o reset manual e scroll para cima
+    document.getElementById('right-panel').classList.remove('active');
+    setTimeout(() => { document.getElementById('right-panel').style.display = 'none'; }, 500);
+    document.querySelectorAll('.aula-item').forEach(el => el.classList.remove('active-lesson'));
+    document.querySelector('.left-panel').classList.remove('focus-mode', 'fade-out-others');
+    document.querySelectorAll('.dia-header').forEach(el => el.classList.remove('active-header'));
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ==========================================
@@ -694,27 +713,20 @@ document.querySelectorAll('.aula-item').forEach(item => {
 // ==========================================
 // 7. ACESSIBILIDADE (ZOOM E ALTO CONTRASTE)
 // ==========================================
-
-// --- Lógica de Zoom ---
-// Carrega o zoom salvo ou define como 100%
 let currentZoom = parseInt(localStorage.getItem('quest_zoom')) || 100;
 document.documentElement.style.fontSize = currentZoom + '%';
 
 function mudarZoom(direcao) {
-    // direcao: 1 para aumentar, -1 para diminuir
     if (direcao > 0 && currentZoom < 150) {
-        currentZoom += 10; // Aumenta 10%
+        currentZoom += 10; 
     } else if (direcao < 0 && currentZoom > 80) {
-        currentZoom -= 10; // Diminui 10%
+        currentZoom -= 10; 
     }
     
-    // Aplica no HTML (como usamos 'rem' no CSS, todo o site cresce/diminui junto!)
     document.documentElement.style.fontSize = currentZoom + '%';
     localStorage.setItem('quest_zoom', currentZoom);
 }
 
-// --- Lógica de Alto Contraste ---
-// Carrega a preferência salva
 let isHighContrast = localStorage.getItem('quest_high_contrast') === 'true';
 if (isHighContrast) {
     document.body.classList.add('high-contrast-mode');
@@ -726,14 +738,12 @@ function toggleAltoContraste() {
     localStorage.setItem('quest_high_contrast', isHighContrast);
 }
 
-// --- Lógica de Abrir/Fechar Menu de Acessibilidade ---
 function toggleA11yMenu() {
     const widget = document.getElementById('a11y-widget');
     widget.classList.toggle('open');
 }
 
-// --- Lógica para Links em Desenvolvimento ---
 function emDesenvolvimento(event) {
-    event.preventDefault(); // Impede que o ecrã salte para o topo ao clicar no link vazio
+    event.preventDefault(); 
     alert("[ SISTEMA ]\n\nMódulo em desenvolvimento.\nEsta funcionalidade será liberada nas próximas atualizações!");
 }

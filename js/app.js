@@ -323,7 +323,7 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     setTimeout(() => { rightPanel.classList.add('active'); }, 50);
 
     // ===============================================
-    // LÓGICA BLINDADA DE SCROLL MOBILE E DESKTOP
+    // LÓGICA BLINDADA DE SCROLL (Fase + Flashcard)
     // ===============================================
     setTimeout(() => {
         if (elementoClicado.classList.contains('active-lesson')) {
@@ -335,9 +335,9 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
                 const headerObj = document.querySelector('header');
                 const headerFixHeight = headerObj ? headerObj.offsetHeight : 80;
                 
-                // 3. No Mobile, rola a tela apontando diretamente para o Flashcard (Right Panel)
-                // Assim o botão "Mostrar Resposta" e o texto ficam sempre enquadrados!
-                const targetBox = window.innerWidth <= 800 ? document.getElementById('right-panel') : elementoClicado;
+                // 3. AGORA FOCA SEMPRE NA FASE CLICADA!
+                // Isso vai enquadrar a fase escolhida no topo e o Flashcard inteiro logo abaixo
+                const targetBox = elementoClicado;
                 
                 const elementTop = targetBox.getBoundingClientRect().top;
                 const scrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -347,9 +347,9 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
                     top: targetPosition,
                     behavior: "smooth"
                 });
-            }, 100); // 100ms garante que o layout do 'focus-mode' foi atualizado
+            }, 100); 
         }
-    }, 700); // 700ms acompanha a transição de abertura do rightPanel
+    }, 700); 
 
     deckRevisao = []; 
     indiceCarta = 0;

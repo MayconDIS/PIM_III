@@ -29,6 +29,9 @@ body {
         linear-gradient(rgba(0, 230, 230, 0.03) 1px, transparent 1px), 
         linear-gradient(90deg, rgba(0, 230, 230, 0.03) 1px, transparent 1px);
     background-size: 30px 30px;
+    
+    /* MATEMÁTICA TRAVADA DESKTOP: 80px do Menu + 15px de Respiro = 95px */
+    padding-top: 95px; 
 }
 
 /* =========================================
@@ -71,19 +74,22 @@ body {
 }
 
 /* =========================================
-   HEADER & NAVBAR
+   HEADER & NAVBAR (100% FIXO)
    ========================================= */
 header {
     background-color: rgba(22, 27, 34, 0.9); 
     backdrop-filter: blur(10px);
-    padding: 15px 40px; 
+    padding: 0 40px; 
+    height: 80px; 
     display: flex; 
     justify-content: space-between;
     align-items: center; 
     border-bottom: 1px solid #30363d; 
-    position: sticky; 
+    position: fixed; 
     top: 0; 
-    z-index: 100;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .mobile-a11y {
@@ -143,7 +149,7 @@ header {
     display: none; 
     position: absolute; 
     right: 0; 
-    top: 40px; 
+    top: 60px; 
     background-color: var(--alura-card); 
     min-width: 250px; 
     box-shadow: 0px 8px 25px rgba(0,0,0,0.8); 
@@ -207,13 +213,13 @@ header {
    ========================================= */
 .container { 
     max-width: 900px; 
-    margin: 40px auto; 
+    margin: 0 auto 40px auto; 
     padding: 0 20px; 
 }
 
 .dashboard-header {
     background: linear-gradient(145deg, #121820, #0b0c10); 
-    padding: 30px; 
+    padding: 40px; 
     border-radius: 12px;
     border: 1px solid #30363d; 
     border-left: 4px solid var(--alura-cyan); 
@@ -254,7 +260,7 @@ header {
 .left-panel { 
     display: flex; 
     flex-direction: column; 
-    gap: 10px; 
+    gap: 13px; /* ALTERADO DE 10px PARA 13px */
 }
 
 .dia-header {
@@ -283,7 +289,7 @@ header {
     background-color: var(--alura-card); 
     border: 1px solid #30363d; 
     border-left: 4px solid #30363d; 
-    padding: 18px 20px; 
+    padding: 27px; 
     border-radius: 8px; 
     display: flex; 
     align-items: center; 
@@ -774,26 +780,32 @@ body.high-contrast-mode .xp-badge {
    ========================================= */
 @media (max-width: 800px) {
     header {
-        padding: 15px 15px;
+        padding: 0 15px; 
+        height: 70px; 
         flex-direction: row; 
         justify-content: space-between;
         align-items: center;
     }
+    
+    body {
+        /* MATEMÁTICA TRAVADA MOBILE: 70px do header + 15px de respiro = 85px */
+        padding-top: 85px; 
+    }
+    
     .logo { font-size: 1.3rem; justify-content: flex-start; }
     .logo span:nth-of-type(3) { display: none; }
     
     .header-right { width: auto; justify-content: flex-end; gap: 15px; }
     .header-right .btn-action { font-size: 0.85rem; padding: 8px 12px; }
     
-    /* MARGEM SUPERIOR MANTIDA EM 40px PARA DESCOLAR O TERMINAL DO HEADER */
-    .container { padding: 0 10px; margin: 40px auto 20px auto; }
+    .container { padding: 0 10px; margin: 0 auto 20px auto; }
     
     .dashboard-header { flex-direction: column; align-items: flex-start; text-align: left; padding: 20px; }
     .welcome-text h1 { font-size: 1.4rem; }
     .xp-wrapper { width: 100%; justify-content: center; margin-top: 15px; border-top: 1px solid #30363d; padding-top: 15px; }
 
     /* FASES COM ESPAÇAMENTO CORRIGIDO */
-    .left-panel { gap: 10px; }
+    .left-panel { gap: 12px; /* ALTERADO DE 10px PARA 12px AQUI TAMBÉM */ }
     
     .aula-item { 
         flex-wrap: wrap !important; 
@@ -817,7 +829,7 @@ body.high-contrast-mode .xp-badge {
 
     /* REDUÇÃO NO TAMANHO DO CARTÃO PARA O MOBILE ENCAIXAR TUDO NO ECRÃ */
     .card-container, .carta-frente, .carta-verso { 
-        min-height: 280px !important; 
+        min-height: 290px !important; 
     }
     .carta-frente, .carta-verso { 
         padding: 15px !important; 

@@ -253,35 +253,24 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     }
 
     const rightPanel = document.getElementById('right-panel');
-    const leftPanel = document.querySelector('.left-panel'); 
 
     // Fechar fase se já estiver aberta
     if (elementoClicado.classList.contains('active-lesson')) {
         elementoClicado.classList.remove('active-lesson');
-        leftPanel.classList.remove('focus-mode'); 
         
         // Retorna o scroll um pouco para cima
-        const y = elementoClicado.getBoundingClientRect().top + window.pageYOffset - 120;
+        const headerFixHeight = document.querySelector('header') ? document.querySelector('header').offsetHeight : 80;
+        const y = elementoClicado.getBoundingClientRect().top + window.pageYOffset - headerFixHeight - 15;
         window.scrollTo({ top: y, behavior: 'smooth' });
 
-        setTimeout(() => { leftPanel.classList.remove('fade-out-others'); }, 50);
-        document.querySelectorAll('.dia-header').forEach(el => el.classList.remove('active-header'));
         rightPanel.classList.remove('active'); 
-        setTimeout(() => { rightPanel.style.display = 'none'; }, 1000); 
+        setTimeout(() => { rightPanel.style.display = 'none'; }, 400); 
         return; 
     }
 
     // Abrir Fase
     document.querySelectorAll('.aula-item').forEach(el => el.classList.remove('active-lesson'));
     elementoClicado.classList.add('active-lesson');
-    leftPanel.classList.add('fade-out-others');
-    document.querySelectorAll('.dia-header').forEach(el => el.classList.remove('active-header'));
-    
-    let prev = elementoClicado.previousElementSibling;
-    while(prev) {
-        if(prev.classList.contains('dia-header')) { prev.classList.add('active-header'); break; }
-        prev = prev.previousElementSibling;
-    }
 
     document.getElementById('botoes-jogo').style.display = 'flex';
     document.getElementById('botao-proxima').style.display = 'none';
@@ -299,14 +288,9 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
 
     if (deckAtual.length === 0) {
         elementoClicado.classList.remove('active-lesson');
-        leftPanel.classList.remove('focus-mode'); 
-        leftPanel.classList.remove('fade-out-others');
-        document.querySelectorAll('.dia-header').forEach(el => el.classList.remove('active-header'));
-        
         alert("✅ [ SISTEMA ANKI: REVISÃO EM DIA ]\n\nVocê já estudou todo o conteúdo desta disciplina por hoje!\nSeu cérebro precisa de descanso para fixar a memória. Volte amanhã para novas revisões espaçadas.");
-        
         rightPanel.classList.remove('active'); 
-        setTimeout(() => { rightPanel.style.display = 'none'; }, 1000); 
+        setTimeout(() => { rightPanel.style.display = 'none'; }, 400); 
         return;
     }
 
@@ -317,39 +301,31 @@ function carregarAula(faseId, nomeAula, elementoClicado) {
     }
 
     document.getElementById('titulo-aula').innerHTML = `Processando: <span style="color: var(--alura-cyan)">${nomeAula}</span>`;
+    
+    // Insere o painel LOGO ABAIXO da aula clicada (Efeito Acordeão)
     elementoClicado.after(rightPanel);
     rightPanel.style.display = 'block';
     
-    setTimeout(() => { rightPanel.classList.add('active'); }, 50);
+    // Garante que o CSS aplique a transição
+    requestAnimationFrame(() => {
+        rightPanel.classList.add('active');
 
-    // ===============================================
-    // LÓGICA BLINDADA DE SCROLL (Fase + Flashcard)
-    // ===============================================
-    setTimeout(() => {
-        if (elementoClicado.classList.contains('active-lesson')) {
-            // 1. Primeiro oculta as outras fases para a tela encolher e estabilizar
-            leftPanel.classList.add('focus-mode');
+        // LÓGICA DE SCROLL SUAVE (Blindada)
+        // Agora, foca perfeitamente na fase e o flashcard aparece embaixo dela
+        setTimeout(() => {
+            const headerObj = document.querySelector('header');
+            const headerFixHeight = headerObj ? headerObj.offsetHeight : 80;
+            
+            const elementTop = elementoClicado.getBoundingClientRect().top;
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            const targetPosition = scrollY + elementTop - headerFixHeight - 15;
 
-            // 2. Aguarda um instante para o navegador calcular a nova altura do documento
-            setTimeout(() => {
-                const headerObj = document.querySelector('header');
-                const headerFixHeight = headerObj ? headerObj.offsetHeight : 80;
-                
-                // 3. AGORA FOCA SEMPRE NA FASE CLICADA!
-                // Isso vai enquadrar a fase escolhida no topo e o Flashcard inteiro logo abaixo
-                const targetBox = elementoClicado;
-                
-                const elementTop = targetBox.getBoundingClientRect().top;
-                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-                const targetPosition = scrollY + elementTop - headerFixHeight - 15;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: "smooth"
-                });
-            }, 100); 
-        }
-    }, 700); 
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
+        }, 150); // Delay curto para permitir que o painel "empurre" os elementos para baixo antes do cálculo
+    });
 
     deckRevisao = []; 
     indiceCarta = 0;

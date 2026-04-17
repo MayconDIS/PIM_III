@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nex_TI | Brand DNA & UI Kit</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@1,500;1,600&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-body: #1c1d1d;
+            --bg-sidebar: #151616;
+            --bg-card: #2d2e2e;
+            --accent-lime: #00e6e6; /* Atualizado para o Ciano da Nex_TI */
+            --accent-lime-hover: #00c2c2;
+            --text-main: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 70px;
+            background-color: var(--bg-sidebar);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            border-right: 1px solid var(--border-color);
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-icon {
+            color: var(--text-muted);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .sidebar-icon:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .sidebar-icon.active { background-color: var(--accent-lime); color: #151616; }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #555;
+            overflow: hidden;
+        }
+
+        .dna-header {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .dna-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .dna-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card h3 {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        .left-col { display: flex; flex-direction: column; gap: 20px; }
+
+        .project-card h2 { font-size: 28px; font-weight: 500; margin-bottom: 12px; }
+        .project-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .project-link:hover { text-decoration: underline; color: var(--accent-lime); }
+
+        .middle-row { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+
+        .add-logo-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #161b22; /* Fundo do card Nex_TI */
+            color: var(--accent-lime);
+            cursor: pointer;
+            border: 1px dashed var(--accent-lime);
+        }
+
+        .fonts-display { display: flex; gap: 60px; }
+        .font-item { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;}
+        .font-item .aa { font-size: 32px; color: var(--accent-lime); }
+
+        /* Nova Exibição de Cores da Nex_TI */
+        .colors-display { display: flex; gap: 20px; padding-bottom: 10px; flex-wrap: wrap; }
+        .color-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .color-circle { width: 60px; height: 60px; border-radius: 50%; cursor: crosshair; transition: transform 0.2s; }
+        .color-circle:hover { transform: scale(1.1); }
+        .color-hex { font-size: 11px; color: var(--text-muted); font-family: 'Fira Code', monospace; }
+        
+        /* Paleta Nex_TI Extraída */
+        .c-bg { background-color: #0b0c10; border: 1px solid #444; }
+        .c-card { background-color: #161b22; border: 1px solid #444; }
+        .c-cyan { background-color: #00e6e6; box-shadow: 0 0 15px rgba(0, 230, 230, 0.4); }
+        .c-purple { background-color: #8a2be2; box-shadow: 0 0 15px rgba(138, 43, 226, 0.4); }
+        .c-green { background-color: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); }
+        .c-gold { background-color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+
+        .branding-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pill-tag { border: 1px solid var(--border-color); border-radius: 20px; padding: 6px 14px; font-size: 13px; background: rgba(255,255,255,0.03); }
+
+        .tagline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .edit-icon {
+            background-color: rgba(0, 230, 230, 0.1);
+            color: var(--accent-lime);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .tagline-text {
+            font-family: 'Fira Code', monospace; /* Trocado para a fonte hacker */
+            font-size: 20px;
+            color: var(--accent-lime);
+            outline: none;
+            border-radius: 4px;
+            padding: 4px;
+        }
+        .tagline-text:focus { background: rgba(0, 230, 230, 0.1); }
+
+        .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+        .photoshoot-card { background-color: #161b22; display: flex; padding: 0; overflow: hidden; border: none; }
+        .photoshoot-images { width: 40%; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: #0b0c10; }
+        .p-img { width: 100%; height: 100px; background-size: cover; background-position: center; }
+        /* Imagens alteradas para vibe Cyber/Tech */
+        .p1 { background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=200&q=80'); }
+        .p2 { background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=200&q=80'); }
+        .p3 { background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=200&q=80'); }
+        .p4 { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=200&q=80'); }
+
+        .photoshoot-content { padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .btn-lime {
+            background-color: var(--accent-lime);
+            color: #0b0c10;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px; /* Cantos condizentes com a Nex_TI */
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 230, 230, 0.3);
+        }
+
+        .upload-card {
+            background-color: #161b22;
+            color: var(--accent-lime);
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 1px dashed #30363d;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .upload-card:hover { border-color: var(--accent-lime); background: rgba(0, 230, 230, 0.05); }
+
+        .btn-reset { position: fixed; bottom: 30px; right: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00e6e6;
+            color: #0b0c10;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 230, 230, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-icon" data-page="labs"><span class="material-symbols-outlined">science</span></div>
+        <div class="sidebar-icon active" data-page="dna"><span class="material-symbols-outlined">biotech</span></div>
+        <div class="sidebar-icon" data-page="campaigns"><span class="material-symbols-outlined">campaign</span></div>
+        <div class="sidebar-icon" data-page="assets"><span class="material-symbols-outlined">photo_library</span></div>
+    </aside>
+
+    <main class="main-content">
+        <div id="toast">Copiado para a área de transferência!</div>
+        
+        <div class="top-nav">
+            <span class="material-symbols-outlined" style="color: var(--text-muted); cursor: pointer;">more_vert</span>
+            <div class="profile-pic">
+                <img src="https://ui-avatars.com/api/?name=NT&background=00e6e6&color=0b0c10" alt="User" style="width:100%;">
+            </div>
+        </div>
+
+        <div class="dna-header">
+            <h1>Nex_TI Design System</h1>
+            <p>Parâmetros extraídos diretamente do CSS (Global, Desktop e Login) para guiar a prototipagem de alta fidelidade no Figma.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="left-col">
+                <div class="card project-card">
+                    <h2 style="font-family: 'Fira Code', monospace;">Nex_<span style="color: var(--accent-lime);">TI</span></h2>
+                    <div class="project-link" id="copyLink">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">content_copy</span>
+                        https://maycondis.github.io/PIM_III/
+                    </div>
+                </div>
+
+                <div class="middle-row">
+                    <div class="card add-logo-card" onclick="alert('Exportar Componentes SVG para o Figma')">
+                        <span class="material-symbols-outlined">download</span>
+                        <span style="font-size: 14px;">Exportar UI Kit</span>
+                    </div>
+
+                    <div class="card">
+                        <h3>Tipografia (Fonts)</h3>
+                        <div class="fonts-display">
+                            <div class="font-item">
+                                <span class="aa" style="font-family: 'Fira Code', monospace; font-weight: 700;">Aa</span>
+                                <span style="font-size: 12px; color: var(--text-muted);">Fira Code (Tech)</span>
+                            </div>
+                            <div class="font-item">
+                                <span class="aa" style="font-family: 'Inter', sans-serif; font-weight: 500;">Aa</span>
+                                <span style="font-size: 12px; color: var(--text-muted);">Inter (Leitura)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Paleta de Cores & Fills</h3>
+                    <div class="colors-display">
+                        <div class="color-item"><div class="color-circle c-bg" title="Background Body"></div><span class="color-hex">#0B0C10</span></div>
+                        <div class="color-item"><div class="color-circle c-card" title="Card Surface"></div><span class="color-hex">#161B22</span></div>
+                        <div class="color-item"><div class="color-circle c-cyan" title="Primary Cyan"></div><span class="color-hex">#00E6E6</span></div>
+                        <div class="color-item"><div class="color-circle c-purple" title="Secondary Purple"></div><span class="color-hex">#8A2BE2</span></div>
+                        <div class="color-item"><div class="color-circle c-green" title="Success / XP"></div><span class="color-hex">#00FF88</span></div>
+                        <div class="color-item"><div class="color-circle c-gold" title="Coins / Warning"></div><span class="color-hex">#FFD700</span></div>
+                    </div>
+                </div>
+
+                <div class="branding-grid">
+                    <div class="card">
+                        <div class="tagline-header">
+                            <h3>Tagline Principal</h3>
+                            <div class="edit-icon" id="editTagline"><span class="material-symbols-outlined" style="font-size: 14px;">edit</span></div>
+                        </div>
+                        <p class="tagline-text" id="tagline" contenteditable="true">> Welcome back, developer.</p>
+                    </div>
+
+                    <div class="card">
+                        <h3>Mecânicas (Features)</h3>
+                        <div class="tag-list">
+                            <span class="pill-tag">Gamificação (XP/Coins)</span>
+                            <span class="pill-tag">Repetição Espaçada (SM-2)</span>
+                            <span class="pill-tag">Estudo Ativo</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Estética Visual (UI)</h3>
+                        <div class="tag-list">
+                            <span class="pill-tag">Dark Mode</span>
+                            <span class="pill-tag">Neon Glow</span>
+                            <span class="pill-tag">Glassmorphism</span>
+                            <span class="pill-tag">Radius 12px</span>
+                            <span class="pill-tag">Grid Pattern</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Tom de Voz (UX Writing)</h3>
+                        <div class="tag-list">
+                            <span class="pill-tag">Hacker/Dev</span>
+                            <span class="pill-tag">Direto</span>
+                            <span class="pill-tag">Desafiador</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Resumo da Arquitetura</h3>
+                    <p id="overview" style="font-size: 14px; line-height: 1.6; color: var(--text-main); opacity: 0.9;" contenteditable="true">
+                        A Nex_TI é uma plataforma educacional focada no engajamento através de métodos ativos. A arquitetura de interface utiliza o conceito Mobile First, com forte pregnância da forma e affordance, aplicando HTML semântico com WAI-ARIA, e um Design System baseado em Dark Mode e detalhes Neon para imersão técnica.
+                    </p>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="card photoshoot-card">
+                    <div class="photoshoot-images">
+                        <div class="p-img p1"></div><div class="p-img p2"></div>
+                        <div class="p-img p3"></div><div class="p-img p4"></div>
+                    </div>
+                    <div class="photoshoot-content">
+                        <p style="font-size: 13px; color: #8b92a5;">Gere mockups da interface em dispositivos reais para anexar à documentação do PIM III.</p>
+                        <button class="btn-lime" onclick="alert('Renderizando Mockups 3D...')">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">devices</span>
+                            Gerar Mockups
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card upload-card" onclick="alert('Funcionalidade para inspecionar CSS de novas telas.')">
+                    <span class="material-symbols-outlined" style="font-size: 24px;">css</span>
+                    <span style="font-size: 14px;">Inspecionar Código</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-lime btn-reset" id="resetBtn">
+            <span class="material-symbols-outlined" style="font-size: 18px;">refresh</span>
+            Resetar Parâmetros
+        </button>
+    </main>
+
+    <script>
+        const icons = document.querySelectorAll('.sidebar-icon');
+        icons.forEach(icon => {
+            icon.addEventListener('click', () => {
+                icons.forEach(i => i.classList.remove('active'));
+                icon.classList.add('active');
+                showToast(`Painel alterado para: ${icon.dataset.page.toUpperCase()}`);
+            });
+        });
+
+        const editIcon = document.getElementById('editTagline');
+        const tagline = document.getElementById('tagline');
+        editIcon.addEventListener('click', () => {
+            tagline.focus();
+            const range = document.createRange();
+            const sel = window.getSelection();
+            range.selectNodeContents(tagline);
+            range.collapse(false);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        });
+
+        const copyBtn = document.getElementById('copyLink');
+        copyBtn.addEventListener('click', () => {
+            const url = "https://maycondis.github.io/PIM_III/";
+            navigator.clipboard.writeText(url).then(() => {
+                showToast("Link do repositório copiado!");
+            });
+        });
+
+        const resetBtn = document.getElementById('resetBtn');
+        resetBtn.addEventListener('click', () => {
+            if(confirm("Deseja recarregar o arquivo original?")) {
+                window.location.reload();
+            }
+        });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.borderColor = 'var(--accent-lime)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.borderColor = 'var(--border-color)';
+            });
+        });
+    </script>
+</body>
+</html>

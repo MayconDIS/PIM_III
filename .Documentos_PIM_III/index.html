@@ -112,19 +112,21 @@
                 DESENVOLVIMENTO DE PLATAFORMA WEB DE AVALIAÇÃO E APOIO À APRENDIZAGEM PARA UMA EMPRESA FICTÍCIA DE TECNOLOGIA EDUCACIONAL
             </div>
         </header>
-        <table class="table-capa" aria-label="Tabela de Autores">
-            <tr><th width="70%">Nomes</th><th width="30%">R.A</th></tr>
+        
+        <table class="table-capa" aria-label="Tabela de Autores" style="margin-top: 1cm; margin-bottom: 3cm;">
+            <tr><th width="70%" style="text-align: left; background: none;">Nomes</th><th width="30%" style="text-align: left; background: none;">R.A</th></tr>
             <tr><td>Gabriel Alves Moreira</td><td>H67HJ4</td></tr>
             <tr><td>Maciel Costa da Silva</td><td>R280985</td></tr>
             <tr><td>Maycon Douglas Inácio Silva</td><td>H719CD3</td></tr>
             <tr><td>Rafael Mesquita</td><td>H6722I0</td></tr>
         </table>
+        
         <footer class="capa-footer uppercase">São José dos Campos - SP<br>Julho / 2026</footer>
     </section>
 
     <section class="page" aria-label="Folha de Rosto">
         <table class="table-autores" style="margin-top: 1cm; margin-bottom: 3cm;">
-            <tr><th width="70%" style="background:none;">Nomes</th><th width="30%" style="background:none;">R.A</th></tr>
+            <tr><th width="70%" style="text-align: left;">Nomes</th><th width="30%" style="text-align: left;">R.A</th></tr>
             <tr><td>Gabriel Alves Moreira</td><td>H67HJ4</td></tr>
             <tr><td>Maciel Costa da Silva</td><td>R280985</td></tr>
             <tr><td>Maycon Douglas Inácio Silva</td><td>H719CD3</td></tr>
@@ -197,17 +199,20 @@
         <p class="paragrafo">A concepção tecnológica da plataforma Nex_TI foi diretamente influenciada por modelos de arquitetura de sucesso no mercado educacional. Plataformas de ensino corporativo comprovaram que a organização em trilhas estruturadas aumenta o índice de conclusão dos treinamentos (ALURA, 2026). Ambientes de capacitação independentes também atestam a eficácia da imersão direta em conteúdo técnico (CURSO.DEV, 2026). O sistema proposto eleva esse padrão ao planejar uma camada de gamificação e lógicas de retenção baseadas na mecânica matemática do software ANKI (2026), transformando o fluxo de estudo em uma jornada avaliativa e metrificável.</p>
         <h2 id="sec-2" style="margin-top: 1cm;">2 DESENVOLVIMENTO</h2>
         <h3 id="sec-2-1">2.1 Etapa 1 – Definição e caracterização do negócio fictício</h3>
-        <p class="paragrafo">A Nex_TI atua como uma empresa fictícia de tecnologia no setor educacional idealizando um software web responsivo sob o modelo Software as a Service. O modelo de negócio busca solucionar o abandono de cursos de capacitação técnica, um desafio validado por grandes corporações educacionais (ALURA, 2026). O projeto foca na entrega de valor através de um painel visual de indicadores que quantificará a evolução do aprendizado em pontos de experiência, permitindo análises gerenciais rigorosas sobre a proficiência e dedicação do colaborador.</p>
+        <p class="paragrafo">A Nex_TI atua como uma EdTech (Education Technology) fictícia, operando sob o modelo SaaS (Software as a Service) voltado para os mercados B2C (alunos avulsos) e B2B (parcerias com instituições de ensino superior e treinamentos corporativos). O modelo de negócio visa solucionar um problema crônico na educação digital: as altas taxas de evasão e a baixa retenção de conhecimento técnico a longo prazo, desafios amplamente validados por grandes corporações educacionais (ALURA, 2026).</p>
+        <p class="paragrafo">Diferente das plataformas convencionais de ensino passivo, a Nex_TI fundamenta a sua proposta de valor em um ecossistema de aprendizagem ativa. O diferencial competitivo da empresa reside na fusão de mecânicas de gamificação com avaliações constantes (Simulados padrão ENADE/ENEM). Ademais, a arquitetura de negócio prevê a utilização nativa de inteligência artificial generativa de ponta, especificamente o Google Gemini, substituindo o uso de frameworks tradicionais de Machine Learning para auxiliar os tutores na sumarização automática e na formulação de novos conteúdos didáticos.</p>
     </section>
 
     <section class="page">
         <span class="num-pagina">8</span>
         <h4 id="sec-2-1-1">2.1.1 Regras de Negócio</h4>
-        <p class="paragrafo">Para balizar a modelagem dos protótipos de alta fidelidade e a integridade sistêmica da gamificação, o escopo documentado rege-se pelas seguintes regras de negócio fundamentais:</p>
-        <ul style="list-style-type: disc;">
-            <li>RN01 - Atribuição de Recompensas: O usuário apenas receberá a bonificação em pontos de experiência e moedas virtuais após a conclusão integral e validação de um módulo de flashcards no sistema final.</li>
-            <li>RN02 - Níveis de Acesso: O sistema possuirá perfis estritos. O Administrador terá privilégios totais, o Tutor realizará a criação de conteúdo, e o Aluno atuará exclusivamente no consumo do conhecimento.</li>
-            <li>RN03 - Economia Virtual: As moedas mapeadas no sistema serão vinculadas a um identificador único de sessão e servirão estritamente para a liberação de módulos de conteúdo bloqueados na loja de recompensas.</li>
+        <p class="paragrafo">Para balizar a modelagem dos protótipos de alta fidelidade e garantir a integridade transacional do banco de dados relacional, o escopo operacional do software rege-se pelas seguintes regras de negócio (RN) fundamentais:</p>
+        <ul style="list-style-type: disc; margin-bottom: 1.5cm;">
+            <li><strong>RN01 - Atribuição de Recompensas (Gamificação):</strong> O aluno apenas receberá a bonificação em pontos de experiência (XP) e moedas virtuais após a submissão integral de um simulado ou conclusão de um ciclo de flashcards. O abandono repentino da sessão anula qualquer ganho de progresso.</li>
+            <li><strong>RN02 - Hierarquia de Controle de Acesso:</strong> O sistema possuirá perfis estritamente isolados. O 'Administrador' detém controle infraestrutural; o 'Tutor' é responsável pela moderação e criação de conteúdo (com auxílio de integração de IA via Google Gemini); e o 'Aluno' atua exclusivamente no consumo de módulos e visualização de dashboards de desempenho.</li>
+            <li><strong>RN03 - Algoritmo de Revisão Dinâmica:</strong> O intervalo em dias para o reaparecimento de um flashcard de estudo deve ser obrigatoriamente calculado pelo algoritmo SM-2. Este cálculo será baseado no feedback do próprio usuário ao classificar a dificuldade da resposta ("fácil", "bom", "difícil").</li>
+            <li><strong>RN04 - Economia Virtual Fechada:</strong> As moedas mapeadas no sistema são vinculadas a um identificador único de aluno e servem estritamente para o desbloqueio de novos conteúdos e avaliações na plataforma. É terminantemente bloqueada qualquer funcionalidade de conversão para moeda fiduciária real.</li>
+            <li><strong>RN05 - Estruturação do Banco de Questões:</strong> Toda e qualquer questão inserida no Módulo Preparatório exige o preenchimento obrigatório de uma 'Área de Conhecimento' e sua 'Origem' avaliativa (ex: ENADE, POS-COMP), garantindo a geração de relatórios de métricas precisos para as instituições parceiras.</li>
         </ul>
         <h3 id="sec-2-2">2.2 Etapa 2 – Engenharia de Software Ágil Aplicada</h3>
         <p class="paragrafo">A gestão da análise da aplicação foi conduzida através das metodologias Scrum e Kanban. A adoção irrestrita das cerimônias ágeis descritas por Schwaber e Sutherland (2020) garantiu o alinhamento tático da equipe no levantamento de requisitos. Este controle processual assegura a rastreabilidade absoluta das regras de negócio, atendendo às exigências fundamentais de qualidade e maturidade de desenvolvimento de software estipuladas pelo guia MPS.BR (SOFTEX, 2021).</p>
@@ -568,7 +573,31 @@ public class Program {
         <span class="num-pagina">20</span>
         <h3 id="sec-2-5">2.5 Etapa 5 – Desenvolvimento Web Responsivo</h3>
         <p class="paragrafo">No escopo do presente semestre, a camada de apresentação (Front-end) foi desenvolvida utilizando HTML5 estruturado e semântico. O uso genérico de elementos <code>div</code> foi substituído no mapeamento arquitetural por tags precisas da W3C, tais como <code>header</code>, <code>main</code>, <code>section</code>, <code>article</code> e <code>nav</code>, garantindo otimização lógica para motores de busca e acessibilidade (ISO/IEC, 2011).</p>
-        <p class="paragrafo">A estratégia adotada no design baseou-se na priorização de dispositivos móveis através do conceito Mobile First. A estruturação previu o uso do Flexbox para alinhamentos transversais do painel principal e CSS Grid Layout para a montagem dos painéis de login. Toda a responsividade projetada é operada de forma limpa por Media Queries nativas que reordenam dinamicamente a interface sem uso de bibliotecas de terceiros.</p>
+        
+        <h4 style="margin-top: 1cm; margin-bottom: 0.5cm;">Quadro 6 – Estratégia de Responsividade e Semântica (Front-end)</h4>
+        <table>
+            <tr>
+                <th width="30%">Tecnologia / Conceito</th>
+                <th width="70%">Aplicação Prática no Projeto (Nex_TI)</th>
+            </tr>
+            <tr>
+                <td><strong>Mobile First</strong></td>
+                <td>O CSS global foi projetado inicialmente para as dimensões de smartphones. As regras para telas maiores (Desktop) foram aplicadas posteriormente através de <code>@media queries</code>, garantindo carregamento mais rápido em dispositivos móveis.</td>
+            </tr>
+            <tr>
+                <td><strong>CSS Flexbox</strong></td>
+                <td>Utilizado para o alinhamento unidimensional (linhas ou colunas) dos elementos internos, como a barra de navegação (Header) e o alinhamento centralizado dos Flashcards de estudo.</td>
+            </tr>
+            <tr>
+                <td><strong>CSS Grid Layout</strong></td>
+                <td>Aplicado no design macro da aplicação, especificamente na estruturação das telas de Login e Dashboard, permitindo a divisão precisa da tela em áreas de conteúdo e painéis laterais.</td>
+            </tr>
+            <tr>
+                <td><strong>HTML5 Semântico</strong></td>
+                <td>Substituição de blocos genéricos (<code>&lt;div&gt;</code>) por tags estruturais com significado (<code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>), melhorando o ranqueamento SEO e a leitura por hardwares assistivos.</td>
+            </tr>
+        </table>
+        <p class="legenda-fonte" style="text-align: left; margin-top:-0.5cm; margin-bottom: 1cm;">Fonte: Criado pelos autores, 2026.</p>
     </section>
 
     <section class="page">
@@ -622,9 +651,8 @@ public class Program {
     <section class="page">
         <span class="num-pagina">25</span>
         <h3 id="sec-2-9">2.9 Etapa 9 – Integração e avaliação final</h3>
-        <p class="paragrafo">A fase de avaliação arquitetural homologou a usabilidade semântica do JavaScript, a integridade da orientação a objetos em C# e a coerência do banco SQL elaborado pela equipe. A modelagem consolidada no Diagrama de Classes, exposto na Figura 9, atua como o esqueleto inquestionável para a criação e manipulação dos dados transacionais da plataforma (PRESSMAN; MAXIM, 2016).</p>
-        <p class="paragrafo">Todos os artefatos de código-fonte desenvolvidos para o MVP, desde as interfaces de flashcards até as classes do Back-end, encontram-se integralmente versionados e disponíveis para consulta pública no repositório oficial do projeto no GitHub (REPOSITÓRIO, 2026).</p>
-        <p class="paragrafo">Os diagramas UML a seguir (Casos de Uso, Classes e Sequência) consolidam a modelagem visual do sistema, detalhando as interações dos atores, a estrutura de objetos e a cronologia transacional.</p>
+        <p class="paragrafo">A fase de avaliação arquitetural homologou a usabilidade semântica do JavaScript, a integridade da orientação a objetos em C# e a coerência do banco SQL elaborado pela equipe. Todos os artefatos de código-fonte desenvolvidos para o MVP, desde as interfaces de flashcards até as classes do Back-end, encontram-se integralmente versionados e disponíveis para consulta pública no repositório oficial do projeto no GitHub (REPOSITÓRIO, 2026).</p>
+        <p class="paragrafo">Os diagramas UML a seguir consolidam a modelagem visual do sistema. O <strong>Diagrama de Casos de Uso</strong> (Figura 8) mapeia as interações externas, definindo claramente as fronteiras do sistema e as ações permitidas para os perfis de Aluno, Tutor e Admin, uma prática essencial para a elicitação ágil de requisitos e compreensão do escopo (SOMMERVILLE, 2019).</p>
         
         <div class="diagrama-container" style="margin-top: 0.5cm;">
             <p class="legenda-topo">Figura 8 – Diagrama de Caso de Uso do Sistema Nex_TI</p>
@@ -635,6 +663,8 @@ public class Program {
 
     <section class="page">
         <span class="num-pagina">26</span>
+        <p class="paragrafo">A modelagem consolidada no <strong>Diagrama de Classes</strong>, exposto na Figura 9, atua como o esqueleto inquestionável para a criação e manipulação dos dados transacionais da plataforma, definindo as heranças e composições sistêmicas conforme os preceitos rigorosos da Orientação a Objetos (PRESSMAN; MAXIM, 2016).</p>
+
         <div class="diagrama-container" style="margin-top: 1cm;">
             <p class="legenda-topo">Figura 9 – Diagrama de Classes do Sistema Nex_TI</p>
             <img src="Class Diagram Nex_TI.png" alt="Diagrama de Classes" class="diagrama-img" onerror="this.src='https://placehold.co/800x600/E8EAED/5F6368?text=Figura+9+-+Classes'">
@@ -644,7 +674,7 @@ public class Program {
 
     <section class="page">
         <span class="num-pagina">27</span>
-        <p class="paragrafo">Para prover rastreabilidade comportamental e confirmar o fluxo transacional (SOFTEX, 2021), a cronologia dos eventos, requisições de banco e processamento da repetição espaçada foi diagramada no artefato de sequência exposto na Figura 10, fechando a prova de conceito técnica exigida no semestre.</p>
+        <p class="paragrafo">Por fim, para prover rastreabilidade comportamental e confirmar o fluxo transacional, a cronologia dos eventos e requisições de banco foi diagramada no <strong>Diagrama de Sequência</strong> (Figura 10). Segundo Fowler (2014), este artefato é crucial para visualizar a troca de mensagens entre objetos ao longo do tempo, fechando a prova de conceito técnica exigida no semestre ao detalhar a validação do motor de repetição espaçada e a distribuição de XP.</p>
 
         <div class="diagrama-container" style="margin-top: 1cm;">
             <p class="legenda-topo">Figura 10 – Diagrama de Sequência: Fluxo de Avaliação e Regras de Negócio</p>
@@ -657,7 +687,9 @@ public class Program {
         <span class="num-pagina">28</span>
         <h2 id="sec-3" style="margin-top: 1cm;">3 CONCLUSÃO</h2>
         <p class="paragrafo">A especificação técnica e o desenvolvimento arquitetural da plataforma Nex_TI validaram substancialmente a premissa teórica de que o apoio à aprendizagem com gatilhos gamificados otimiza o acompanhamento corporativo e acadêmico. A adoção irrestrita da Engenharia de Software moderna não apenas direcionou o fluxo de tarefas no modelo Kanban, mas garantiu a aplicação de soluções robustas exigidas pelo mercado de tecnologia atual.</p>
-        <p class="paragrafo">O atendimento rigoroso ao controle de qualidade estabeleceu um MVP (Minimum Viable Product) visual de altíssima fidelidade concebido sob os preceitos de HTML5 semântico, CSS Flexbox/Grid e Vanilla JavaScript. A acessibilidade foi tratada de forma transversal via tags WAI-ARIA, modos de Alto Contraste e controles de Zoom independentes. No espectro da interface, as heurísticas de usabilidade chancelaram um ambiente dotado de forte pregnância da forma e affordance clara nos botões interativos de avaliação, anulando a sobrecarga cognitiva do utilizador final.</p>
+        
+        <p class="paragrafo">O atendimento rigoroso ao controle de qualidade estabeleceu um MVP (Minimum Viable Product) visual de altíssima fidelidade. A arquitetura de front-end foi projetada estritamente sob a ótica Mobile First, priorizando a performance e a usabilidade em dispositivos móveis antes da expansão fluida para telas de Desktop através de CSS Flexbox e Grid Layout. A base do sistema foi construída em HTML5 semântico, o que eliminou marcações genéricas e fortaleceu o suporte a hardwares assistivos. Essa acessibilidade foi tratada de forma transversal via tags WAI-ARIA, modos de Alto Contraste e controles de Zoom. No espectro da interface, as heurísticas de usabilidade chancelaram um ambiente dotado de forte pregnância da forma e affordance clara, anulando a sobrecarga cognitiva do utilizador final.</p>
+        
         <p class="paragrafo">Fica atestada a maturidade analítica e técnica da equipe ao fornecer uma solução que transcende a documentação teórica, entregando a alvenaria sistêmica com classes escritas em C# e .NET 10 sob os quatro pilares da Orientação a Objetos. Estruturas transacionais completas prontas para processamento no SQL Server formam a base inquestionável para a codificação plena e o amadurecimento do ecossistema educacional nos semestres subsequentes.</p>
     </section>
 
@@ -674,6 +706,8 @@ public class Program {
         <br>
         <p>ELMASRI, Ramez; NAVATHE, Shamkant B. <strong>Sistemas de Banco de Dados</strong>. 6. ed. São Paulo: Pearson Addison Wesley, 2011.</p>
         <br>
+        <p>FOWLER, Martin. <strong>UML Essencial: Um Breve Guia para a Linguagem Padrão de Modelagem de Objetos</strong>. 3. ed. Porto Alegre: Bookman, 2014.</p>
+        <br>
         <p>ISO/IEC. <strong>ISO/IEC 25010: Systems and software engineering - Systems and software Quality Requirements and Evaluation (SQuaRE) - System and software quality models</strong>. Genebra: ISO/IEC, 2011.</p>
         <br>
         <p>KRUG, Steve. <strong>Não Me Faça Pensar: Uma Abordagem de Bom Senso à Usabilidade na Web</strong>. 3. ed. Rio de Janeiro: Alta Books, 2014.</p>
@@ -685,6 +719,8 @@ public class Program {
         <p>SCHWABER, Ken; SUTHERLAND, Jeff. <strong>The Scrum Guide: The Definitive Guide to Scrum</strong>. Scrum Guides, 2020.</p>
         <br>
         <p>SOFTEX. <strong>MPS.BR - Guia Geral de Melhoria de Processo de Software</strong>. Versão 2021. Campinas: Softex, 2021.</p>
+        <br>
+        <p>SOMMERVILLE, Ian. <strong>Engenharia de Software</strong>. 10. ed. São Paulo: Pearson Education do Brasil, 2019.</p>
     </section>
 
     <section class="page">
@@ -695,7 +731,7 @@ public class Program {
         <br>
         <p><strong>Alunos:</strong></p>
         <table>
-            <tr><th style="background-color: #f4f4f4;">RA</th><th style="background-color: #f4f4f4;">Nome</th><th style="background-color: #f4f4f4;">E-mail</th><th style="background-color: #f4f4f4;">Curso</th><th style="background-color: #f4f4f4;">Visto do aluno</th></tr>
+            <tr><th style="background-color: #f4f4f4; text-align: left;">RA</th><th style="background-color: #f4f4f4; text-align: left;">Nome</th><th style="background-color: #f4f4f4; text-align: left;">E-mail</th><th style="background-color: #f4f4f4; text-align: left;">Curso</th><th style="background-color: #f4f4f4; text-align: left;">Visto do aluno</th></tr>
             <tr><td>H67HJ4</td><td>Gabriel Alves Moreira</td><td></td><td>ADS</td><td></td></tr>
             <tr><td>R280985</td><td>Maciel Costa da Silva</td><td>maciel.silva18@aluno.unip.br</td><td>ADS</td><td></td></tr>
             <tr><td>H719CD3</td><td>Maycon Douglas Inácio Silva</td><td>maycon.silva87@aluno.unip.br</td><td>ADS</td><td></td></tr>
@@ -713,6 +749,7 @@ public class Program {
             <tr><td>29/03</td><td>6ª Reunião: Finalização e integração dos diagramas UML no relatório.</td></tr>
             <tr><td>05/04</td><td>7ª Reunião: Integração dos protótipos de média fidelidade (WEB) na documentação. Interface Mobile em andamento.</td></tr>
             <tr><td>17/04</td><td>8ª Reunião: Reformulação do Dicionário de Dados e criação do script DDL (SQL Server) integrando as lógicas gamificadas do Nex_TI. Mapeamento dos relacionamentos N:N.</td></tr>
+            <tr><td>19/04</td><td>9ª Reunião: Repaginação do layout, fundamentação teórica dos diagramas UML (Sommerville e Fowler) e revisão final para exportação em PDF.</td></tr>
         </table>
     </section>
 
@@ -722,32 +759,25 @@ public class Program {
         // --- SCRIPT MÁGICO DE AUTO-DESCOBERTA DE IMAGENS ---
         document.addEventListener("DOMContentLoaded", function() {
             const imagens = document.querySelectorAll('img');
-            // Lista das extensões mais comuns que o script vai tentar "adivinhar"
             const extensoes = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
 
             imagens.forEach(img => {
                 let srcOriginal = img.getAttribute('src');
-                
-                // Ignora imagens externas (links) ou em base64 (como o ícone da UNIP)
                 if (!srcOriginal || srcOriginal.startsWith('http') || srcOriginal.startsWith('data:')) return;
 
-                // Extrai o nome do ficheiro sem a extensão (ex: de "foto.png" passa a "foto")
                 let nomeBase = srcOriginal.substring(0, srcOriginal.lastIndexOf('.'));
                 if (!nomeBase) nomeBase = srcOriginal; 
 
                 let tentativaAtual = 0;
 
-                // Este evento é disparado automaticamente se a imagem falhar ao carregar
                 img.onerror = function() {
                     if (tentativaAtual < extensoes.length) {
-                        // Tenta injetar a nova extensão e testar novamente
                         img.src = `${nomeBase}.${extensoes[tentativaAtual]}`;
                         tentativaAtual++;
                     } else {
-                        // Se não encontrar a imagem com nenhuma das extensões, gera um aviso visual
-                        let nomeExibicao = nomeBase.replace(/%20/g, " "); // Limpa os espaços
+                        let nomeExibicao = nomeBase.replace(/%20/g, " "); 
                         img.src = `https://placehold.co/800x300/ffdddd/cc0000?text=Imagem+Ausente na pasta:\\n${nomeExibicao}`;
-                        img.onerror = null; // Trava para evitar um loop infinito
+                        img.onerror = null; 
                     }
                 };
             });

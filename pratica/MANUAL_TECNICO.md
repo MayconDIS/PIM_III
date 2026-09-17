@@ -51,14 +51,14 @@ Para estender a aplicação no futuro, basta alterar a lógica nos *Controllers 
 ---
 
 ## 📐 5. Consistência e Transição UML para Código de Produção
-Para fins de rastreabilidade técnica e avaliação acadêmica, a relação entre a especificação teórica (Diagramas UML do repositório [PIM_III-Documentacao_UML](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Documentacao_UML)) e a implementação em produção deste repositório foi projetada seguindo regras claras de transição:
+Para fins de rastreabilidade técnica e avaliação acadêmica, a relação entre a especificação teórica (Diagramas UML do repositório [uml/](../uml)) e a implementação em produção deste repositório foi projetada seguindo regras claras de transição:
 
 1. **Abstração Conceitual vs Persistência Relacional (EF Core):**
    * No modelo de classes abstrato UML, entidades como `Flashcards`, `Modulos` e `Fases` representam a lógica conceitual de domínio. No código de produção C# (`backend/Models/`), elas são mapeadas como entidades de banco relacionais singulares (`Flashcard`, `Fase`) com anotações de persistência e validação do Entity Framework (`[Key]`, `[Required]`, `[ForeignKey]`).
 2. **Materialização da Regra SM-2:**
-   * A regra de associação conceitual do algoritmo de repetição espaçada SM-2 entre as classes `Aluno` e `Flashcards` é materializada no código real pela entidade de junção relacional [ProgressoFlashcard.cs](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Pratica/backend/Models/ProgressoFlashcard.cs). Ela é responsável por registrar de forma independente o histórico de revisões de cada estudante (`Repeticoes`, `IntervaloDias`, `FatorFacilidade`, `DataProximaRevisao`).
+   * A regra de associação conceitual do algoritmo de repetição espaçada SM-2 entre as classes `Aluno` e `Flashcards` é materializada no código real pela entidade de junção relacional [ProgressoFlashcard.cs](backend/Models/ProgressoFlashcard.cs). Ela é responsável por registrar de forma independente o histórico de revisões de cada estudante (`Repeticoes`, `IntervaloDias`, `FatorFacilidade`, `DataProximaRevisao`).
 3. **Consolidação de Atributos de Gamificação:**
-   * A classe [Aluno.cs](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Pratica/backend/Models/Aluno.cs) herda de [Usuario.cs](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Pratica/backend/Models/Usuario.cs). Para simplificar a autenticação de sessão e otimizar as consultas SQL no Entity Framework, os atributos de gamificação (`XP`, `Moedas`, `Nivel`) foram consolidados diretamente na classe base `Usuario`.
+   * A classe [Aluno.cs](backend/Models/Aluno.cs) herda de [Usuario.cs](backend/Models/Usuario.cs). Para simplificar a autenticação de sessão e otimizar as consultas SQL no Entity Framework, os atributos de gamificação (`XP`, `Moedas`, `Nivel`) foram consolidados diretamente na classe base `Usuario`.
 4. **Classes de Apoio Lógico:**
    * Lógicas representadas por classes auxiliares conceituais no diagrama UML (como `Gamificacao` e `Motor_SM2`) foram convertidas em lógicas de serviço em JavaScript no Front-end (`auth.js`, `api.js`) e mapeamentos no backend para otimizar a experiência SPA e tempo de resposta da API.
 

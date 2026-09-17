@@ -35,7 +35,7 @@ A API REST foi desenvolvida com **ASP.NET Core 10** e **Entity Framework Core**.
 ## 3️⃣ Rodando o Frontend (Vanilla Web)
 O Frontend foi construído com as melhores práticas de **WAI-ARIA** e semântica **HTML5**, operando sem a necessidade de frameworks pesados (apenas HTML, CSS Global e JavaScript Puro).
 
-1. Abra a pasta raiz do projeto (`PIM_III-Parte_Pratica`) no **VS Code**.
+1. Abra a pasta raiz do projeto (`pratica/`, dentro do monorepo `PIM_III`) no **VS Code**.
 2. Utilize a extensão **Live Server** (clicando com o botão direito no arquivo `index.html` > *Open with Live Server*).
 3. A experiência do aplicativo será iniciada através da *Splash Screen*, que fará o redirecionamento para o fluxo de **Login** e, posteriormente, para o **Terminal de Dashboard** e sistema de Flashcards.
 

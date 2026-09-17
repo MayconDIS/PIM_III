@@ -23,28 +23,28 @@
 <details open>
   <summary>🇧🇷 <b>Português</b></summary>
 
-  O ecossistema do projeto **Nex_TI** desenvolvido para o PIM III (UNIP) é estruturado em três repositórios complementares:
-  1. 📄 **[PIM_III-Parte_Teorica](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Teorica)**: Contém a monografia acadêmica e o Relatório ABNT interativo (HTML/CSS), protótipos de interface, cronogramas e atas teóricas.
-  2. 📐 **[PIM_III-Documentacao_UML](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Documentacao_UML)**: Abriga a modelagem UML completa e fonte no Astah (`.asta`), os diagramas globais exportados (Classes, Sequência, Casos de Uso) e a documentação detalhada em Markdown do Backlog do Produto e Sprints.
-  3. 💻 **[PIM_III-Parte_Pratica](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Pratica)**: A implementação funcional em código, englobando o Frontend (HTML/CSS/JS com modo de acessibilidade e o mapa neural interativo), a API do Backend em C# (.NET 10 Minimal APIs) e os scripts do banco de dados (Microsoft SQL Server).
+  O ecossistema do projeto **Nex_TI** desenvolvido para o PIM III (UNIP) é estruturado em três partes complementares deste monorepo:
+  1. 📄 **[teorica/](../teorica)**: Contém a monografia acadêmica e o Relatório ABNT interativo (HTML/CSS), protótipos de interface, cronogramas e atas teóricas.
+  2. 📐 **[uml/](../uml)**: Abriga a modelagem UML completa e fonte no Astah (`.asta`), os diagramas globais exportados (Classes, Sequência, Casos de Uso) e a documentação detalhada em Markdown do Backlog do Produto e Sprints.
+  3. 💻 **[pratica/](../pratica)**: A implementação funcional em código, englobando o Frontend (HTML/CSS/JS com modo de acessibilidade e o mapa neural interativo), a API do Backend em C# (.NET 10 Minimal APIs) e os scripts do banco de dados (Microsoft SQL Server).
 </details>
 
 <details>
   <summary>🇺🇸 <b>English</b></summary>
 
-  The **Nex_TI** project ecosystem for PIM III (UNIP) is structured into three complementary repositories:
-  1. 📄 **[PIM_III-Parte_Teorica](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Teorica)**: Contains the academic monograph and the interactive ABNT Report (HTML/CSS), interface prototypes, schedules, and theoretical minutes.
-  2. 📐 **[PIM_III-Documentacao_UML](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Documentacao_UML)**: Hosts the complete UML modeling and Astah source (`.asta`), global exported diagrams (Class, Sequence, Use Case), and detailed Markdown documentation of Product and Sprint Backlogs.
-  3. 💻 **[PIM_III-Parte_Pratica](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Pratica)**: The functional code implementation, encompassing the Frontend (HTML/CSS/JS with accessibility mode and interactive neural map), the Backend C# API (.NET 10 Minimal APIs), and database scripts (Microsoft SQL Server).
+  The **Nex_TI** project ecosystem for PIM III (UNIP) is structured into three complementary parts of this monorepo:
+  1. 📄 **[teorica/](../teorica)**: Contains the academic monograph and the interactive ABNT Report (HTML/CSS), interface prototypes, schedules, and theoretical minutes.
+  2. 📐 **[uml/](../uml)**: Hosts the complete UML modeling and Astah source (`.asta`), global exported diagrams (Class, Sequence, Use Case), and detailed Markdown documentation of Product and Sprint Backlogs.
+  3. 💻 **[pratica/](../pratica)**: The functional code implementation, encompassing the Frontend (HTML/CSS/JS with accessibility mode and interactive neural map), the Backend C# API (.NET 10 Minimal APIs), and database scripts (Microsoft SQL Server).
 </details>
 
 <details>
   <summary>🇪🇸 <b>Español</b></summary>
 
   El ecosistema del proyecto **Nex_TI** para PIM III (UNIP) está estructurado en tres repositórios complementarios:
-  1. 📄 **[PIM_III-Parte_Teorica](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Teorica)**: Contiene la monografía académica y el Informe ABNT interactivo (HTML/CSS), prototipos de interfaz, cronogramas y actas teóricas.
-  2. 📐 **[PIM_III-Documentacao_UML](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Documentacao_UML)**: Alberga el modelado UML completo y la fuente en Astah (`.asta`), los diagramas globales exportados (Clases, Secuencia, Casos de Uso) y la documentación detallada en Markdown del Backlog del Producto y Sprints.
-  3. 💻 **[PIM_III-Parte_Pratica](file:///C:/Users/mayco/Documents/GitHub/PIM_III-Parte_Pratica)**: La implementación funcional en código, que abarca el Frontend (HTML/CSS/JS con modo de accesibilidad y mapa neuronal interactivo), la API del Backend en C# (.NET 10 Minimal APIs) y los scripts de la base de datos (Microsoft SQL Server).
+  1. 📄 **[teorica/](../teorica)**: Contiene la monografía académica y el Informe ABNT interactivo (HTML/CSS), prototipos de interfaz, cronogramas y actas teóricas.
+  2. 📐 **[uml/](../uml)**: Alberga el modelado UML completo y la fuente en Astah (`.asta`), los diagramas globales exportados (Clases, Secuencia, Casos de Uso) y la documentación detallada en Markdown del Backlog del Producto y Sprints.
+  3. 💻 **[pratica/](../pratica)**: La implementación funcional en código, que abarca el Frontend (HTML/CSS/JS con modo de accesibilidad y mapa neuronal interactivo), la API del Backend en C# (.NET 10 Minimal APIs) y los scripts de la base de datos (Microsoft SQL Server).
 </details>
 
 ---
@@ -87,7 +87,7 @@ O projeto foi construído seguindo as melhores práticas do mercado:
 ### 📂 Estrutura do Repositório
 
 ```text
-📦 PIM_III-Parte_Pratica
+📦 pratica/
  ┣ 📂 .planning/      # Inteligência do projeto, roadmap e arquitetura
  ┣ 📂 assets/         # Recursos globais e Design System
  ┃ ┣ 📂 css/          # global.css, splash.css
@@ -137,7 +137,7 @@ The project was built adhering to industry best practices:
 ### 📂 Repository Structure
 
 ```text
-📦 PIM_III-Parte_Pratica
+📦 pratica/
  ┣ 📂 .planning/      # Project intelligence, roadmap, and architecture
  ┣ 📂 assets/         # Global resources and Design System
  ┃ ┣ 📂 css/          # global.css, splash.css
@@ -188,7 +188,7 @@ El proyecto fue construido siguiendo las mejores prácticas del mercado:
 ### 📂 Estructura del Repositorio
 
 ```text
-📦 PIM_III-Parte_Pratica
+📦 pratica/
  ┣ 📂 .planning/      # Inteligencia del proyecto, hoja de ruta y arquitectura
  ┣ 📂 assets/         # Recursos globales y Design System
  ┃ ┣ 📂 css/          # global.css, splash.css
